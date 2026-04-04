@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .companies-section {
+            margin-top: 32px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+        }
+
+        .company-card {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .company-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .company-about {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .apply-btn {
+            display: inline-block;
+            background: var(--success-color);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .apply-btn:hover {
+            background: #059669;
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" style="max-width: 600px;">
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div
+                    style="background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 32px; box-shadow: var(--shadow-md);">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 style="margin-bottom: 16px;">Student Profile</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Welcome back, {{ student['name']
+                    }}!</p>
+            </div>
+
+            <div class="profile-details">
+                <div class="profile-item">
+                    <span class="profile-label">Name</span>
+                    <span class="profile-value">{{ student['name'] }}</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">Registration No</span>
+                    <span class="profile-value">{{ student['roll_number'] }}</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">Course</span>
+                    <span class="profile-value">{{ student['course'] }}</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">Section</span>
+                    <span class="profile-value">{{ student['section'] }} <span
+                            style="background:var(--secondary-color); color:var(--text-main); padding:2px 8px; border-radius:12px; font-size:12px; font-weight:700; margin-left:8px;">Sec</span></span>
+                </div>
+                {% if student['phone'] %}
+                <div class="profile-item">
+                    <span class="profile-label">Phone</span>
+                    <span class="profile-value">{{ student['phone'] }}</span>
+                </div>
+                {% endif %}
+                {% if student['email'] %}
+                <div class="profile-item">
+                    <span class="profile-label">Email</span>
+                    <span class="profile-value">{{ student['email'] }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="companies-section">
+                <h3
+                    style="margin-bottom: 16px; font-size: 18px; color: var(--text-main); display: flex; align-items: center;">
+                    <i class="fas fa-briefcase" style="margin-right: 8px; color: var(--primary-color);"></i> Available
+                    Opportunities
+                </h3>
+
+                {% if companies|length > 0 %}
+                {% for company in companies %}
+                <div class="company-card">
+                    <div class="company-name">
+                        <i class="fas fa-building"
+                            style="color: var(--text-muted); margin-right: 8px; font-size: 14px;"></i>
+                        {{ company['name'] }}
+                    </div>
+                    <div class="company-about">
+                        {{ company['about'] }}
+                    </div>
+                    {% if company['show_timer'] %}
+                    <div class="countdown-timer" data-end="{{ company['end_timestamp'] }}"
+                        style="background-color: #fef3c7; color: #d97706; padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 12px; display: inline-block;">
+                        <i class="fas fa-clock" style="margin-right: 6px;"></i> <span class="time-text">Calculating time
+                            left...</span>
+                    </div>
+                    {% elif company['end_date'] %}
+                    <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">
+                        <i class="fas fa-calendar-alt" style="margin-right: 6px;"></i> Last Date: {{
+                        company['end_date'][:10] }}
+                    </div>
+                    {% endif %}
+                    <div style="clear: both;"></div>
+                    <a href="/apply/{{ company['id'] }}" target="_blank" class="apply-btn">
+                        <i class="fas fa-external-link-alt" style="margin-right: 6px;"></i> Apply Now
+                    </a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p
+                    style="color: var(--text-muted); font-size: 14px; text-align: center; padding: 16px; background: var(--secondary-color); border-radius: 8px;">
+                    No companies available at the moment.</p>
+                {% endif %}
+            </div>
+
+            <div class="dashboard-actions"
+                style="margin-top: 24px; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                <a href="/resume_builder" class="apply-btn" style="background: #8b5cf6; flex: 1; min-width: 140px;"><i
+                        class="fas fa-file-alt" style="margin-right: 8px;"></i> Resume Builder</a>
+                <a href="/edit_my_profile" class="apply-btn" style="background: var(--primary-color); flex: 1; min-width: 140px;"><i
+                        class="fas fa-edit" style="margin-right: 8px;"></i> Edit Profile</a>
+                <a href="/logout" class="logout-btn" style="flex: 1; margin-top: 0; min-width: 140px;"><i class="fas fa-sign-out-alt"
+                        style="margin-right: 8px;"></i> Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTimers() {
+            const timers = document.querySelectorAll('.countdown-timer');
+            const now = new Date().getTime();
+
+            timers.forEach(timer => {
+                const endTime = parseInt(timer.getAttribute('data-end'));
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    timer.style.display = 'none';
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timer.querySelector('.time-text').innerText =
+                    `Ends in ${hours}h ${minutes}m ${seconds}s`;
+            });
+        }
+
+        setInterval(updateTimers, 1000);
+        updateTimers();
+    </script>
+</body>
+
+</html>

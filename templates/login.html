@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Portal Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div
+                    style="background: var(--primary-color); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px; box-shadow: var(--shadow-md);">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2 style="margin-bottom: 16px;">Portal Login</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Access your dashboard securely
+                </p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endwith %}
+
+            <div class="tabs">
+                <button id="btnAdmin" class="active" onclick="showAdmin()">Admin</button>
+                <button id="btnStudent" onclick="showStudent()">Student</button>
+            </div>
+
+            <!-- Admin Form -->
+            <form id="adminForm" method="POST">
+                <input type="hidden" name="user_type" value="admin">
+                <div style="position: relative;">
+                    <i class="fas fa-user"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="text" name="username" placeholder="Admin Username" required
+                        style="padding-left: 40px;">
+                </div>
+                <div style="position: relative;">
+                    <i class="fas fa-lock"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="password" name="password" placeholder="Password" required style="padding-left: 40px;">
+                </div>
+                <button type="submit"><i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Login as
+                    Admin</button>
+            </form>
+
+            <!-- Student Form -->
+            <form id="studentForm" method="POST" style="display:none;">
+                <input type="hidden" name="user_type" value="student">
+                <div style="position: relative;">
+                    <i class="fas fa-id-card"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="text" name="reg_no" placeholder="Registration Number" required
+                        style="padding-left: 40px;">
+                </div>
+                <div style="position: relative;">
+                    <i class="fas fa-lock"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="password" name="password" placeholder="Password" required style="padding-left: 40px;">
+                </div>
+                <button type="submit"><i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Login as
+                    Student</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        function showAdmin() {
+            document.getElementById("adminForm").style.display = "block";
+            document.getElementById("studentForm").style.display = "none";
+            document.getElementById("btnAdmin").classList.add("active");
+            document.getElementById("btnStudent").classList.remove("active");
+        }
+        function showStudent() {
+            document.getElementById("adminForm").style.display = "none";
+            document.getElementById("studentForm").style.display = "block";
+            document.getElementById("btnStudent").classList.add("active");
+            document.getElementById("btnAdmin").classList.remove("active");
+        }
+    </script>
+
+</body>
+
+</html>

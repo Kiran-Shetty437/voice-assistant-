@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Student</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div
+                    style="background: var(--primary-color); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px; box-shadow: var(--shadow-md);">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2 style="margin-bottom: 16px;">Add Student</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Enter student details below</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/add_student" enctype="multipart/form-data">
+
+                <div style="position: relative;">
+                    <i class="fas fa-user"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="text" name="name" placeholder="Student Name" required style="padding-left: 40px;">
+                </div>
+
+                <div style="position: relative;">
+                    <i class="fas fa-id-badge"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="text" name="roll_number" placeholder="Roll Number" required
+                        style="padding-left: 40px; margin-bottom: 4px;">
+                </div>
+                <small
+                    style="color:var(--text-muted); display:block; margin-bottom:16px; font-size: 12px; margin-left: 4px;">Default
+                    password will be same as Roll Number</small>
+
+                <div style="position: relative;">
+                    <i class="fas fa-book"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <select name="course" required style="padding-left: 40px;">
+                        <option value="">Select Course</option>
+                        <option value="vca">vca</option>
+                        <option value="bba">bba</option>
+                        <option value="ba">ba</option>
+                        <option value="bsc">bsc</option>
+                        <option value="bcom">bcom</option>
+                    </select>
+                </div>
+
+                <div style="position: relative;">
+                    <i class="fas fa-layer-group"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <select name="section" required style="padding-left: 40px;">
+                        <option value="">Select Section</option>
+                        <option value="a">a</option>
+                        <option value="b">b</option>
+                        <option value="c">c</option>
+                        <option value="d">d</option>
+                        <option value="e">e</option>
+                        <option value="f">f</option>
+                    </select>
+                </div>
+
+                <div style="position: relative;">
+                    <i class="fas fa-phone"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="text" name="phone" placeholder="Phone Number (10 digits)" pattern="\d{10}" maxlength="10"
+                        title="Only 10 digits phone number" required style="padding-left: 40px;">
+                </div>
+
+                <div style="position: relative;">
+                    <i class="fas fa-envelope"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="email" name="email" placeholder="Email Address" required style="padding-left: 40px;">
+                </div>
+
+                <div style="position: relative;">
+                    <i class="fas fa-camera"
+                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                    <input type="file" name="photo" accept="image/*"
+                        style="padding-left: 40px; background: white; padding-top: 10px;">
+                </div>
+                <small
+                    style="color:var(--text-muted); display:block; margin-top:-12px; margin-bottom:16px; font-size: 12px; margin-left: 4px;">Student
+                    Photo (Optional)</small>
+
+                <button type="submit"><i class="fas fa-save" style="margin-right: 8px;"></i> Save</button>
+            </form>
+
+            <br>
+            <a href="/admin_dashboard" class="logout-btn" style="margin-top: 8px;"><i class="fas fa-arrow-left"
+                    style="margin-right: 8px;"></i> Back to Dashboard</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

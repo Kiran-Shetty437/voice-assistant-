@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container" style="max-width: 600px;">
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div
+                    style="background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px; box-shadow: var(--shadow-md);">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <h2 style="margin-bottom: 16px;">Edit Profile</h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Update your contact details</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('edit_my_profile') }}">
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Phone
+                        Number</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-phone"
+                            style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                        <input type="tel" name="phone" value="{{ student['phone'] or '' }}"
+                            placeholder="Enter 10 digits phone number" pattern="\d{10}" maxlength="10"
+                            title="Only 10 digits phone number" style="padding-left: 40px; margin-bottom: 0;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Email
+                        Address</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-envelope"
+                            style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                        <input type="email" name="email" value="{{ student['email'] or '' }}"
+                            placeholder="Enter Email Address" style="padding-left: 40px; margin-bottom: 0;">
+                    </div>
+                </div>
+
+                <button type="submit"><i class="fas fa-save" style="margin-right: 8px;"></i> Save Changes</button>
+            </form>
+
+            <br>
+            <a href="/student_profile" class="logout-btn"
+                style="margin-top: 8px; background: var(--secondary-color); color: var(--text-main);"><i
+                    class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Profile</a>
+        </div>
+    </div>
+</body>
+
+</html>

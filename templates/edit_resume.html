@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Resume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; display: flex; height: 100vh; overflow: hidden; background: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .builder-layout { display: flex; width: 100%; height: 100%; }
+        
+        .form-panel {
+            width: 450px;
+            background: white;
+            padding: 30px;
+            overflow-y: auto;
+            border-right: 1px solid #e2e8f0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        
+        .preview-panel {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            background: #94a3b8;
+        }
+        
+        .resume-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+            position: relative;
+        } /* Padding handled by inline styles in JS renderer */
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 14px;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-actions {
+            display: flex; gap: 12px; margin-bottom: 30px;
+        }
+        .btn-download { background: #10b981; color: white; border: none; padding: 12px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; flex:1; font-size: 14px; transition: 0.2s;}
+        .btn-download:hover { background: #059669; }
+        
+        .btn-back { background: #64748b; color: white; text-decoration: none; padding: 12px 15px; border-radius: 6px; text-align: center; flex:1; font-weight: 600; font-size: 14px; transition: 0.2s;}
+        .btn-back:hover { background: #475569; }
+
+        .form-panel h3 { margin-top: 30px; margin-bottom: 15px; color: #1e293b; font-size: 16px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; }
+
+    </style>
+</head>
+<body>
+
+<div class="builder-layout">
+    <!-- Form Panel -->
+    <div class="form-panel">
+        <h2 style="margin-top:0; color: var(--text-main); font-size: 24px;">Resume Builder</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Editing <strong>{{ template_id | title }} Theme</strong></p>
+        
+        <div class="header-actions">
+            <a href="/resume_builder" class="btn-back"><i class="fas fa-arrow-left"></i> Change Theme</a>
+            <button class="btn-download" onclick="downloadPDF()"><i class="fas fa-download"></i> Save PDF</button>
+        </div>
+
+        <form id="resumeForm">
+            <h3>Personal Information</h3>
+            <div class="form-group">
+                <label>Profile Photo</label>
+                <input type="file" id="fn_photo" accept="image/*" onchange="handlePhotoUpload(event)">
+            </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fn_name" value="{{ student['name'] }}" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+                <label>Designation (Subtitle)</label>
+                <input type="text" id="fn_designation" value="Business Management Student" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="fn_email" value="{{ student['email'] }}" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="fn_phone" value="{{ student['phone'] }}" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" id="fn_address" value="123 Anywhere St., Any City" oninput="updatePreview()">
+            </div>
+            
+            <h3>Education & Academics</h3>
+            <div class="form-group">
+                <label>Education Details (Multiple entries allowed)</label>
+                <textarea id="fn_course" rows="4" oninput="updatePreview()">{{ student['course'] }} from Borcelle University | 2026-2030\nHigh School from Vidamandir Sr Secondary School | 2023-2026</textarea>
+            </div>
+
+            <h3>Professional Profile / Objective</h3>
+            <div class="form-group">
+                <label>Career Objective / About Me</label>
+                <textarea id="fn_summary" rows="4" oninput="updatePreview()">A passionate business management student looking forward to building a career in a professional, work-driven environment where I can utilize my skills and knowledge to contribute to organizational growth.</textarea>
+            </div>
+
+            <h3>Experience & Projects</h3>
+            <div class="form-group">
+                <label>Work Experience / Projects</label>
+                <textarea id="fn_exp" rows="5" oninput="updatePreview()">Financial Accountant at Salford & Co. | 2030 - 2033
+• Implemented financial reporting module.
+• Collaborated with senior associates on strategic planning.</textarea>
+            </div>
+
+            <h3>Skills & Extra Details</h3>
+            <div class="form-group">
+                <label>Technical Skills (Comma separated)</label>
+                <input type="text" id="fn_skills" value="Auditing, Financial Accounting, Financial Reporting, Strategic Planning" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+                <label>Hobbies / Other Info (Comma separated)</label>
+                <input type="text" id="fn_hobbies" value="Listening to Music, Reading Books" oninput="updatePreview()">
+            </div>
+        </form>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+        <div class="resume-page" id="resumePreview">
+            <!-- Dynamic Content Injected Here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const templateType = "{{ template_id }}";
+    
+    let profilePhotoSrc = "{% if student['photo'] %}/static/uploads/{{ student['photo'] }}{% endif %}";
+
+    function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profilePhotoSrc = e.target.result;
+                updatePreview();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function updatePreview() {
+        const name = document.getElementById('fn_name').value || 'Your Name';
+        const designation = document.getElementById('fn_designation').value || 'Designation';
+        const email = document.getElementById('fn_email').value || 'email@example.com';
+        const phone = document.getElementById('fn_phone').value || 'Phone Number';
+        const address = document.getElementById('fn_address').value || '';
+        
+        const course = document.getElementById('fn_course').value || '';
+        const summary = document.getElementById('fn_summary').value || '';
+        const exp = document.getElementById('fn_exp').value || '';
+        
+        let skills = document.getElementById('fn_skills').value.split(',');
+        let skillsHtml = tagsToList(skills);
+
+        let hobbies = document.getElementById('fn_hobbies').value.split(',');
+        let hobbiesHtml = tagsToList(hobbies);
+
+        const previewContainer = document.getElementById('resumePreview');
+
+        if (templateType === 'minimalist') {
+            previewContainer.innerHTML = `
+                <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #222; padding: 50px;">
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <h1 style="font-size: 42px; text-transform: uppercase; margin: 0; letter-spacing: 2px;">${name}</h1>
+                        <div style="font-size: 22px; color: #444; margin-top: 5px;">${designation}</div>
+                        <div style="display: flex; justify-content: center; gap: 20px; font-size: 13px; margin-top: 20px; color: #555;">
+                            ${phone ? '<span><i class="fas fa-phone"></i> ' + phone + '</span>' : ''}
+                            ${email ? '<span><i class="fas fa-envelope"></i> ' + email + '</span>' : ''}
+                            ${address ? '<span><i class="fas fa-map-marker-alt"></i> ' + address + '</span>' : ''}
+                        </div>
+                    </div>
+                    <hr style="border: none; border-top: 2px solid #222; margin-bottom: 25px;">
+                    
+                    <h2 style="font-size: 16px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 15px; color:#222;">About Me</h2>
+                    <div style="font-size: 13px; line-height: 1.6; margin-bottom: 25px; color: #444;">${summary.replace(/\n/g, '<br>')}</div>
+
+                    <h2 style="font-size: 16px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 15px; color:#222;">Education</h2>
+                    <div style="font-size: 13px; line-height: 1.6; margin-bottom: 25px; color: #444;">${formatBoldFirstLine(course)}</div>
+
+                    <h2 style="font-size: 16px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 15px; color:#222;">Work Experience & Projects</h2>
+                    <div style="font-size: 13px; line-height: 1.6; margin-bottom: 25px; color: #444;">${formatBoldFirstLine(exp)}</div>
+
+                    <h2 style="font-size: 16px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 15px; color:#222;">Skills</h2>
+                    <div style="font-size: 13px; display: flex; color: #444;">
+                        <ul style="margin:0; padding-left: 20px; line-height: 1.8; flex:1;">${skillsHtml}</ul>
+                        <ul style="margin:0; padding-left: 20px; line-height: 1.8; flex:1;">${hobbiesHtml}</ul>
+                    </div>
+                </div>
+            `;
+        } else if (templateType === 'tabular') {
+            previewContainer.innerHTML = `
+                <div style="font-family: 'Times New Roman', Times, serif; color: #000; padding: 40px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+                        <div>
+                            <h1 style="font-size: 32px; margin: 0 0 10px 0;">${name}</h1>
+                            <div style="font-size: 15px; line-height: 1.6;">
+                                Email: <strong>${email}</strong><br>
+                                Mobile: <strong>${phone}</strong><br>
+                                Address: ${address}
+                            </div>
+                        </div>
+                        ${profilePhotoSrc ? '<img src="' + profilePhotoSrc + '" style="width: 120px; height: 140px; object-fit: cover; border: 1px solid #ccc;">' : '<div style="width: 120px; height: 140px; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #999;">Photo</div>'}
+                    </div>
+                    
+                    <div style="background-color: #d1d5db; padding: 6px 10px; font-weight: bold; font-size: 17px; font-family: 'Arial', sans-serif; margin-bottom: 10px;">Career Objective</div>
+                    <div style="font-size: 15px; margin-bottom: 20px; line-height: 1.6;">${summary.replace(/\n/g, '<br>')}</div>
+
+                    <div style="background-color: #d1d5db; padding: 6px 10px; font-weight: bold; font-size: 17px; font-family: 'Arial', sans-serif; margin-bottom: 10px;">Academic Profile</div>
+                    <ul style="font-size: 15px; margin-bottom: 20px; line-height: 1.6; padding-left: 25px;">
+                        ${tagsToList(course.split('\n'))}
+                    </ul>
+
+                    <div style="background-color: #d1d5db; padding: 6px 10px; font-weight: bold; font-size: 17px; font-family: 'Arial', sans-serif; margin-bottom: 10px;">Experience</div>
+                    <div style="font-size: 15px; margin-bottom: 20px; line-height: 1.6;">${exp.replace(/\n/g, '<br>')}</div>
+
+                    <div style="background-color: #d1d5db; padding: 6px 10px; font-weight: bold; font-size: 17px; font-family: 'Arial', sans-serif; margin-bottom: 10px;">Key Skills</div>
+                    <ul style="font-size: 15px; margin-bottom: 20px; line-height: 1.6; padding-left: 25px;">${skillsHtml}</ul>
+
+                    <div style="background-color: #d1d5db; padding: 6px 10px; font-weight: bold; font-size: 17px; font-family: 'Arial', sans-serif; margin-bottom: 10px;">Hobbies / Other Details</div>
+                    <ul style="font-size: 15px; margin-bottom: 20px; line-height: 1.6; padding-left: 25px;">${hobbiesHtml}</ul>
+
+                    <div style="background-color: #d1d5db; padding: 6px 10px; font-weight: bold; font-size: 17px; font-family: 'Arial', sans-serif; margin-bottom: 10px;">Declaration</div>
+                    <div style="font-size: 15px; line-height: 1.6;">
+                        I hereby declare that all the above furnished information is true to the best of my knowledge and belief.<br><br>
+                        <div style="display:flex; justify-content: space-between; margin-top:20px;">
+                            <div>Date:<br>Place:</div>
+                            <div>Signature</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // sidebar theme
+            previewContainer.innerHTML = `
+                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100%; margin: 0; padding: 0; background: white;">
+                    <div style="width: 35%; background-color: #e2e8f0; padding: 40px 30px; box-sizing: border-box; height: 100%;">
+                        ${profilePhotoSrc ? '<img src="' + profilePhotoSrc + '" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 30px auto; display: block; border: 4px solid white;">' : '<div style="width: 140px; height: 140px; background-color: white; border-radius: 50%; margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; color: #a1a1aa; font-size: 50px;"><i class="fas fa-user"></i></div>'}
+                        
+                        <h2 style="font-size: 15px; text-transform: uppercase; margin-bottom: 15px; color: #334155; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px;">Contact</h2>
+                        <div style="font-size: 13px; margin-bottom: 12px; color: #475569; display: flex; align-items: center;"><i class="fas fa-phone" style="width: 25px; color: #64748b;"></i> ${phone}</div>
+                        <div style="font-size: 13px; margin-bottom: 12px; color: #475569; display: flex; align-items: center;"><i class="fas fa-envelope" style="width: 25px; color: #64748b;"></i> ${email}</div>
+                        <div style="font-size: 13px; margin-bottom: 35px; color: #475569; display: flex; align-items: center;"><i class="fas fa-map-marker-alt" style="width: 25px; color: #64748b;"></i> ${address}</div>
+
+                        <h2 style="font-size: 15px; text-transform: uppercase; margin-bottom: 15px; color: #334155; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px;">Education</h2>
+                        <div style="font-size: 13px; color: #475569; margin-bottom: 35px; line-height: 1.6;">${course.replace(/\n/g, '<br><br>')}</div>
+
+                        <h2 style="font-size: 15px; text-transform: uppercase; margin-bottom: 15px; color: #334155; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px;">Skills</h2>
+                        <div style="font-size: 13px; color: #475569; margin-bottom: 35px;">
+                            <ul style="padding-left: 15px; margin: 0; line-height: 1.6;">${skillsHtml}</ul>
+                        </div>
+                    </div>
+                    <div style="width: 65%; padding: 50px 40px; box-sizing: border-box; height: 100%;">
+                        <h1 style="font-size: 38px; margin: 0 0 5px 0; color: #1e293b;">${name}</h1>
+                        <div style="font-size: 16px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">${designation}</div>
+
+                        <h2 style="font-size: 16px; text-transform: uppercase; margin-bottom: 15px; color: #334155; letter-spacing: 1px;">Career Objective</h2>
+                        <div style="font-size: 14px; color: #475569; margin-bottom: 35px; line-height: 1.7;">${summary.replace(/\n/g, '<br>')}</div>
+
+                        <h2 style="font-size: 16px; text-transform: uppercase; margin-bottom: 15px; color: #334155; letter-spacing: 1px;">Experience / Projects</h2>
+                        <div style="font-size: 14px; color: #475569; margin-bottom: 35px; line-height: 1.7;">${formatBoldFirstLine(exp)}</div>
+
+                        <h2 style="font-size: 16px; text-transform: uppercase; margin-bottom: 15px; color: #334155; letter-spacing: 1px;">Interests / Hobbies</h2>
+                        <div style="font-size: 14px; color: #475569; margin-bottom: 35px; line-height: 1.7;">
+                            <ul style="padding-left: 20px; margin: 0;">${hobbiesHtml}</ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function tagsToList(tags) {
+        return tags.filter(t => t.trim() !== '').map(t => `<li>${t.trim()}</li>`).join('');
+    }
+
+    function formatBoldFirstLine(text) {
+        return text.split('\n\n').map(block => {
+            let lines = block.split('\n');
+            if(lines.length > 0 && lines[0].trim() !== '') {
+                lines[0] = `<strong>${lines[0]}</strong>`;
+            }
+            return lines.join('<br>');
+        }).join('<br><br>');
+    }
+
+    function downloadPDF() {
+        const element = document.getElementById('resumePreview');
+        const name = document.getElementById('fn_name').value || "Student";
+        const opt = {
+            margin:       0,
+            filename:     `${name.replace(/\s+/g, '_')}_Resume.pdf`,
+            image:        { type: 'jpeg', quality: 1.0 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    // Initial render
+    updatePreview();
+</script>
+
+</body>
+</html>
