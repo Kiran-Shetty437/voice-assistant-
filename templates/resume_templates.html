@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Select Resume Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +13,7 @@
             gap: 24px;
             margin-top: 24px;
         }
+
         .template-card {
             background: var(--bg-body);
             border: 2px solid var(--border-color);
@@ -21,11 +23,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .template-card:hover {
             border-color: var(--primary-color);
             transform: translateY(-5px);
             box-shadow: var(--shadow-md);
         }
+
         .template-preview {
             width: 100%;
             height: 250px;
@@ -39,27 +43,93 @@
             overflow: hidden;
             background: white;
         }
-        
-        .t1-preview { color: #333; flex-direction: column; }
-        .t1-preview hr { width: 80%; border: 1px solid #333; margin: 10px 0;}
-        .t1-preview i { font-size: 40px; margin-bottom: 10px; }
 
-        .t2-preview { flex-direction: column; padding: 10px;}
-        .t2-bar { width: 90%; height: 20px; background: #d1d5db; margin: 5px 0; }
-        .t2-top { width: 90%; display: flex; justify-content: space-between; margin-bottom: 20px;}
-        .t2-top-lines { width: 60%; }
-        .t2-top-line { height: 10px; background: #ccc; margin: 4px 0;}
-        .t2-top-box { width: 40px; height: 50px; border: 2px solid #ccc; }
+        .t1-preview {
+            color: #333;
+            flex-direction: column;
+        }
 
-        .t3-preview { display: flex; align-items: stretch;}
-        .t3-left { width: 35%; background: #e2e8f0; height: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 20px;}
-        .t3-left-circle { width: 40px; height: 40px; border-radius: 50%; background: white; margin-bottom: 20px;}
-        .t3-right { width: 65%; background: white; height: 100%; padding: 20px; }
+        .t1-preview hr {
+            width: 80%;
+            border: 1px solid #333;
+            margin: 10px 0;
+        }
+
+        .t1-preview i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .t2-preview {
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .t2-bar {
+            width: 90%;
+            height: 20px;
+            background: #d1d5db;
+            margin: 5px 0;
+        }
+
+        .t2-top {
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .t2-top-lines {
+            width: 60%;
+        }
+
+        .t2-top-line {
+            height: 10px;
+            background: #ccc;
+            margin: 4px 0;
+        }
+
+        .t2-top-box {
+            width: 40px;
+            height: 50px;
+            border: 2px solid #ccc;
+        }
+
+        .t3-preview {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .t3-left {
+            width: 35%;
+            background: #e2e8f0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        .t3-left-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        .t3-right {
+            width: 65%;
+            background: white;
+            height: 100%;
+            padding: 20px;
+        }
 
         .template-card h3 {
             margin: 0 0 8px 0;
             color: var(--text-main);
         }
+
         .template-card p {
             color: var(--text-muted);
             margin: 0;
@@ -67,61 +137,101 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container" style="max-width: 1000px;">
         <div class="card">
             <h2 style="text-align: center; margin-bottom: 10px;">Choose a Resume Template</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Select from the custom templates designed directly from your specific requests.</p>
-            
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Select from the custom
+                templates designed directly from your specific requests.</p>
+
             <div class="template-grid">
                 <!-- Template 1: Minimalist -->
                 <div class="template-card" onclick="window.location.href='/resume_builder/minimalist'">
                     <div class="template-preview" style="background: white;">
-                        <div class="mini-t1" style="padding: 24px 20px; text-align: center; font-family: Arial, sans-serif; color: #222; width: 100%; box-sizing: border-box;">
-                            <div style="font-weight: 800; font-size: 20px; letter-spacing: 1px; color: #222;">SEBASTIAN BENNETT</div>
-                            <div style="font-size: 11px; color: #555; margin-bottom: 8px; margin-top: 4px;">Professional Accountant</div>
-                            <div style="font-size: 7px; color: #777; display: flex; justify-content: center; gap: 10px;">
+                        <div class="mini-t1"
+                            style="padding: 24px 20px; text-align: center; font-family: Arial, sans-serif; color: #222; width: 100%; box-sizing: border-box;">
+                            <div style="font-weight: 800; font-size: 20px; letter-spacing: 1px; color: #222;">SEBASTIAN
+                                BENNETT</div>
+                            <div style="font-size: 11px; color: #555; margin-bottom: 8px; margin-top: 4px;">Professional
+                                Accountant</div>
+                            <div
+                                style="font-size: 7px; color: #777; display: flex; justify-content: center; gap: 10px;">
                                 <span><i class="fas fa-phone"></i> +123-456-7890</span>
                                 <span><i class="fas fa-envelope"></i> hello@reallygreatsite.com</span>
                             </div>
                             <hr style="border: 0; border-top: 2px solid #222; margin: 12px 0;">
-                            
-                            <div style="text-align: left; font-size: 9px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px;">ABOUT ME</div>
-                            <div style="text-align: left; font-size: 6px; color: #555; margin-bottom: 12px; line-height: 1.5;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-                            
-                            <div style="text-align: left; font-size: 9px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px;">EDUCATION</div>
-                            <div style="text-align: left; font-size: 6px; color: #555; margin-bottom: 12px; line-height: 1.5;"><b>Borcelle University</b> | 2026-2030<br>Senior Accountant</div>
-                            
-                            <div style="text-align: left; font-size: 9px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px;">WORK EXPERIENCE</div>
-                            <div style="text-align: left; font-size: 6px; color: #555; margin-bottom: 12px; line-height: 1.5;"><b>Salford & Co.</b> | 2030-2033<br>Financial Accountant</div>
+
+                            <div
+                                style="text-align: left; font-size: 9px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px;">
+                                ABOUT ME</div>
+                            <div
+                                style="text-align: left; font-size: 6px; color: #555; margin-bottom: 12px; line-height: 1.5;">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.</div>
+
+                            <div
+                                style="text-align: left; font-size: 9px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px;">
+                                EDUCATION</div>
+                            <div
+                                style="text-align: left; font-size: 6px; color: #555; margin-bottom: 12px; line-height: 1.5;">
+                                <b>Borcelle University</b> | 2026-2030<br>Senior Accountant</div>
+
+                            <div
+                                style="text-align: left; font-size: 9px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 6px; letter-spacing: 1px;">
+                                WORK EXPERIENCE</div>
+                            <div
+                                style="text-align: left; font-size: 6px; color: #555; margin-bottom: 12px; line-height: 1.5;">
+                                <b>Salford & Co.</b> | 2030-2033<br>Financial Accountant</div>
                         </div>
                     </div>
                     <h3>Minimalist Pro</h3>
                     <p>Clean, centered design with horizontal dividers. Exactly like your first template.</p>
                 </div>
-                
+
                 <!-- Template 2: Tabular -->
                 <div class="template-card" onclick="window.location.href='/resume_builder/tabular'">
                     <div class="template-preview" style="background: white;">
-                        <div class="mini-t2" style="padding: 20px; font-family: 'Times New Roman', serif; color: #000; width: 100%; box-sizing: border-box;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div class="mini-t2"
+                            style="padding: 20px; font-family: 'Times New Roman', serif; color: #000; width: 100%; box-sizing: border-box;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
                                 <div style="text-align: left;">
-                                    <div style="font-weight: bold; font-size: 16px; margin-bottom: 4px;">Revanth Vaddadhi</div>
+                                    <div style="font-weight: bold; font-size: 16px; margin-bottom: 4px;">Revanth
+                                        Vaddadhi</div>
                                     <div style="font-size: 7px;">Email: <b>revanthvdxx@gmail.com</b></div>
                                     <div style="font-size: 7px;">Mobile: <b>+9182XXXX50</b></div>
                                     <div style="font-size: 7px;">Address: Chennai, Tamilnadu</div>
                                 </div>
-                                <div style="width: 45px; height: 55px; border: 1px solid #ccc; font-size: 8px; color: #ccc; display: flex; align-items: center; justify-content: center;">Photo</div>
+                                <div
+                                    style="width: 45px; height: 55px; border: 1px solid #ccc; font-size: 8px; color: #ccc; display: flex; align-items: center; justify-content: center;">
+                                    Photo</div>
                             </div>
-                            
-                            <div style="background: #ccc; font-size: 9px; font-weight: bold; padding: 3px 5px; margin: 8px 0 4px 0; text-align: left; font-family: Arial, sans-serif;">Career Objective</div>
-                            <div style="font-size: 6px; text-align: left; margin-bottom: 8px; line-height: 1.4;">A passionate business management student looking forward to work with a professional environment...</div>
-                            
-                            <div style="background: #ccc; font-size: 9px; font-weight: bold; padding: 3px 5px; margin: 8px 0 4px 0; text-align: left; font-family: Arial, sans-serif;">Academic Profile</div>
-                            <ul style="font-size: 6px; text-align: left; margin: 0; padding-left: 12px; line-height: 1.4;"><li>Bachelors in Business Administration (BBA)</li><li>Intermediate M.E.C from St Johns</li></ul>
-                            
-                            <div style="background: #ccc; font-size: 9px; font-weight: bold; padding: 3px 5px; margin: 8px 0 4px 0; text-align: left; font-family: Arial, sans-serif;">Key Skills</div>
-                            <ul style="font-size: 6px; text-align: left; margin: 0; padding-left: 12px; line-height: 1.4;"><li>Strategic planning and project management</li><li>Target oriented</li></ul>
+
+                            <div
+                                style="background: #ccc; font-size: 9px; font-weight: bold; padding: 3px 5px; margin: 8px 0 4px 0; text-align: left; font-family: Arial, sans-serif;">
+                                Career Objective</div>
+                            <div style="font-size: 6px; text-align: left; margin-bottom: 8px; line-height: 1.4;">A
+                                passionate business management student looking forward to work with a professional
+                                environment...</div>
+
+                            <div
+                                style="background: #ccc; font-size: 9px; font-weight: bold; padding: 3px 5px; margin: 8px 0 4px 0; text-align: left; font-family: Arial, sans-serif;">
+                                Academic Profile</div>
+                            <ul
+                                style="font-size: 6px; text-align: left; margin: 0; padding-left: 12px; line-height: 1.4;">
+                                <li>Bachelors in Business Administration (BBA)</li>
+                                <li>Intermediate M.E.C from St Johns</li>
+                            </ul>
+
+                            <div
+                                style="background: #ccc; font-size: 9px; font-weight: bold; padding: 3px 5px; margin: 8px 0 4px 0; text-align: left; font-family: Arial, sans-serif;">
+                                Key Skills</div>
+                            <ul
+                                style="font-size: 6px; text-align: left; margin: 0; padding-left: 12px; line-height: 1.4;">
+                                <li>Strategic planning and project management</li>
+                                <li>Target oriented</li>
+                            </ul>
                         </div>
                     </div>
                     <h3>Tabular Academic</h3>
@@ -131,25 +241,44 @@
                 <!-- Template 3: Sidebar -->
                 <div class="template-card" onclick="window.location.href='/resume_builder/sidebar'">
                     <div class="template-preview" style="background: white; padding: 0;">
-                        <div class="mini-t3" style="display: flex; height: 100%; text-align: left; width: 100%; font-family: 'Segoe UI', Tahoma, sans-serif;">
-                            <div style="width: 35%; background: #e2e8f0; padding: 20px 10px; height: 100%; box-sizing: border-box;">
-                                <div style="width: 45px; height: 45px; background: white; border-radius: 50%; margin: 0 auto 15px auto;"></div>
-                                
-                                <div style="font-size: 8px; font-weight: bold; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin-bottom: 6px; color: #334155;">CONTACT</div>
-                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">Email Address<br>Phone Number<br>Location Details</div>
-                                
-                                <div style="font-size: 8px; font-weight: bold; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin-bottom: 6px; color: #334155;">EDUCATION</div>
-                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">University Name<br>Degree Name</div>
+                        <div class="mini-t3"
+                            style="display: flex; height: 100%; text-align: left; width: 100%; font-family: 'Segoe UI', Tahoma, sans-serif;">
+                            <div
+                                style="width: 35%; background: #e2e8f0; padding: 20px 10px; height: 100%; box-sizing: border-box;">
+                                <div
+                                    style="width: 45px; height: 45px; background: white; border-radius: 50%; margin: 0 auto 15px auto;">
+                                </div>
+
+                                <div
+                                    style="font-size: 8px; font-weight: bold; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin-bottom: 6px; color: #334155;">
+                                    CONTACT</div>
+                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">
+                                    Email Address<br>Phone Number<br>Location Details</div>
+
+                                <div
+                                    style="font-size: 8px; font-weight: bold; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin-bottom: 6px; color: #334155;">
+                                    EDUCATION</div>
+                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">
+                                    University Name<br>Degree Name</div>
                             </div>
-                            <div style="width: 65%; background: white; padding: 25px 15px; height: 100%; box-sizing: border-box;">
-                                <div style="font-size: 16px; font-weight: bold; color: #1e293b; margin-bottom: 2px;">[Your Full Name]</div>
-                                <div style="font-size: 7px; color: #64748b; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; letter-spacing: 1px;">DESIGNATION</div>
-                                
-                                <div style="font-size: 8px; font-weight: bold; margin-bottom: 4px; color: #38bdf8;">CAREER OBJECTIVE</div>
-                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">Motivated and detail-oriented graduate, eager to begin a professional journey...</div>
-                                
-                                <div style="font-size: 8px; font-weight: bold; margin-bottom: 4px; color: #38bdf8;">INTERNSHIP EXPERIENCE</div>
-                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;"><b>Intern - Company Name</b><br>Assisted in activities relating to branch.</div>
+                            <div
+                                style="width: 65%; background: white; padding: 25px 15px; height: 100%; box-sizing: border-box;">
+                                <div style="font-size: 16px; font-weight: bold; color: #1e293b; margin-bottom: 2px;">
+                                    [Your Full Name]</div>
+                                <div
+                                    style="font-size: 7px; color: #64748b; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; letter-spacing: 1px;">
+                                    DESIGNATION</div>
+
+                                <div style="font-size: 8px; font-weight: bold; margin-bottom: 4px; color: #38bdf8;">
+                                    CAREER OBJECTIVE</div>
+                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">
+                                    Motivated and detail-oriented graduate, eager to begin a professional journey...
+                                </div>
+
+                                <div style="font-size: 8px; font-weight: bold; margin-bottom: 4px; color: #38bdf8;">
+                                    INTERNSHIP EXPERIENCE</div>
+                                <div style="font-size: 6px; margin-bottom: 12px; color: #475569; line-height: 1.4;">
+                                    <b>Intern - Company Name</b><br>Assisted in activities relating to branch.</div>
                             </div>
                         </div>
                     </div>
@@ -159,9 +288,11 @@
             </div>
 
             <div style="text-align: center; margin-top: 40px;">
-                <a href="/student_profile" class="logout-btn"><i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Profile</a>
+                <a href="/student_profile" class="logout-btn"><i class="fas fa-arrow-left"
+                        style="margin-right: 8px;"></i> Back to Profile</a>
             </div>
         </div>
     </div>
 </body>
+
 </html>

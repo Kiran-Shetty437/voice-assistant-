@@ -202,7 +202,7 @@
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 24px;
             margin-bottom: 32px;
         }
@@ -490,11 +490,24 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-details">
-                        <h4>{{ (total_applications / (total_students * total_companies)) * 100 if total_students > 0 and
+                        <h4>{{ "%.1f"|format((total_applications / (total_students * total_companies)) * 100) if
+                            total_students > 0 and
                             total_companies > 0 else 0 }}%</h4>
                         <p>Engagement</p>
                     </div>
                 </div>
+
+                <a href="/admin_achievements" style="text-decoration: none; color: inherit;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fef3c7; color: #f59e0b;">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h4>{{ total_achievements }}</h4>
+                            <p>Achievements</p>
+                        </div>
+                    </div>
+                </a>
             </div>
 
             <!-- Dashboard Charts Grid (Row 1) -->

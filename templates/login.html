@@ -11,15 +11,16 @@
 <body>
 
     <div class="container">
-        <div class="card">
-            <div style="text-align: center; margin-bottom: 24px;">
+        <div class="card glass" style="border-radius: 24px;">
+            <div style="text-align: center; margin-bottom: 32px;">
                 <div
-                    style="background: var(--primary-color); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px; box-shadow: var(--shadow-md);">
+                    style="background: var(--accent-gradient); color: white; width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 28px; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4); transform: rotate(-5deg);">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <h2 style="margin-bottom: 16px;">Portal Login</h2>
-                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Access your dashboard securely
-                </p>
+                <h1
+                    style="font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: -0.025em; margin-bottom: 8px;">
+                    Welcome Back</h1>
+                <p style="color: var(--text-muted); font-size: 15px;">Login to access your placement dashboard</p>
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -28,45 +29,52 @@
             {% endfor %}
             {% endwith %}
 
-            <div class="tabs">
-                <button id="btnAdmin" class="active" onclick="showAdmin()">Admin</button>
-                <button id="btnStudent" onclick="showStudent()">Student</button>
+            <div class="tabs" style="height: 48px; padding: 6px;">
+                <button id="btnAdmin" class="{% if user_type != 'student' %}active{% endif %}" onclick="showAdmin()"
+                    style="font-size: 14px; letter-spacing: 0.01em;">Administrator</button>
+                <button id="btnStudent" class="{% if user_type == 'student' %}active{% endif %}" onclick="showStudent()"
+                    style="font-size: 14px; letter-spacing: 0.01em;">Student</button>
             </div>
 
             <!-- Admin Form -->
-            <form id="adminForm" method="POST">
+            <form id="adminForm" method="POST" class="{% if user_type == 'student' %}hidden{% endif %}">
                 <input type="hidden" name="user_type" value="admin">
-                <div style="position: relative;">
-                    <i class="fas fa-user"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                <div style="position: relative; margin-bottom: 20px;">
+                    <i class="fas fa-user-shield"
+                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
                     <input type="text" name="username" placeholder="Admin Username" required
-                        style="padding-left: 40px;">
+                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
                 </div>
-                <div style="position: relative;">
-                    <i class="fas fa-lock"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="password" name="password" placeholder="Password" required style="padding-left: 40px;">
+                <div style="position: relative; margin-bottom: 24px;">
+                    <i class="fas fa-key"
+                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
+                    <input type="password" name="password" placeholder="Password" required
+                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
                 </div>
-                <button type="submit"><i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Login as
+                <button type="submit"
+                    style="background: var(--accent-gradient); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);"><i
+                        class="fas fa-sign-in-alt" style="margin-right: 12px;"></i> Login as
                     Admin</button>
             </form>
 
             <!-- Student Form -->
-            <form id="studentForm" method="POST" style="display:none;">
+            <form id="studentForm" method="POST" class="{% if user_type != 'student' %}hidden{% endif %}">
                 <input type="hidden" name="user_type" value="student">
-                <div style="position: relative;">
+                <div style="position: relative; margin-bottom: 20px;">
                     <i class="fas fa-id-card"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
                     <input type="text" name="reg_no" placeholder="Registration Number" required
-                        style="padding-left: 40px;">
+                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
                 </div>
-                <div style="position: relative;">
+                <div style="position: relative; margin-bottom: 24px;">
                     <i class="fas fa-lock"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="password" name="password" placeholder="Password" required style="padding-left: 40px;">
+                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
+                    <input type="password" name="password" placeholder="Password" required
+                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
                 </div>
-                <button type="submit"><i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Login as
-                    Student</button>
+                <button type="submit"
+                    style="background: var(--accent-gradient); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);"><i
+                        class="fas fa-sign-in-alt" style="margin-right: 12px;"></i> Login as Student</button>
             </form>
 
         </div>
@@ -74,16 +82,32 @@
 
     <script>
         function showAdmin() {
-            document.getElementById("adminForm").style.display = "block";
-            document.getElementById("studentForm").style.display = "none";
-            document.getElementById("btnAdmin").classList.add("active");
-            document.getElementById("btnStudent").classList.remove("active");
+            const adminForm = document.getElementById("adminForm");
+            const studentForm = document.getElementById("studentForm");
+            const btnAdmin = document.getElementById("btnAdmin");
+            const btnStudent = document.getElementById("btnStudent");
+
+            adminForm.classList.remove("hidden");
+            studentForm.classList.add("hidden");
+            btnAdmin.classList.add("active");
+            btnStudent.classList.remove("active");
+
+            // Add a subtle fade-in animation
+            adminForm.style.animation = "fadeIn 0.3s ease-out";
         }
         function showStudent() {
-            document.getElementById("adminForm").style.display = "none";
-            document.getElementById("studentForm").style.display = "block";
-            document.getElementById("btnStudent").classList.add("active");
-            document.getElementById("btnAdmin").classList.remove("active");
+            const adminForm = document.getElementById("adminForm");
+            const studentForm = document.getElementById("studentForm");
+            const btnAdmin = document.getElementById("btnAdmin");
+            const btnStudent = document.getElementById("btnStudent");
+
+            adminForm.classList.add("hidden");
+            studentForm.classList.remove("hidden");
+            btnStudent.classList.add("active");
+            btnAdmin.classList.remove("active");
+
+            // Add a subtle fade-in animation
+            studentForm.style.animation = "fadeIn 0.3s ease-out";
         }
     </script>
 
