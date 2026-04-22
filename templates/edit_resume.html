@@ -14,8 +14,9 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
-            background: #f1f5f9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: white;
+            font-family: 'Inter', sans-serif;
         }
 
         .builder-layout {
@@ -26,11 +27,10 @@
 
         .form-panel {
             width: 450px;
-            background: white;
+            background: #0f172a;
             padding: 30px;
             overflow-y: auto;
-            border-right: 1px solid #e2e8f0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            border-right: 1px solid var(--glass-border);
             z-index: 10;
         }
 
@@ -40,97 +40,102 @@
             overflow-y: auto;
             display: flex;
             justify-content: center;
-            background: #94a3b8;
+            background: #020617;
         }
 
         .resume-page {
             width: 210mm;
             min-height: 297mm;
             background: white;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             box-sizing: border-box;
             position: relative;
         }
 
-        /* Padding handled by inline styles in JS renderer */
-
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #334155;
-            font-size: 14px;
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
             box-sizing: border-box;
             font-family: inherit;
             font-size: 14px;
+            color: white;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .header-actions {
             display: flex;
             gap: 12px;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
         .btn-download {
-            background: #10b981;
+            background: var(--accent-gradient);
             color: white;
             border: none;
-            padding: 12px 15px;
-            border-radius: 6px;
+            padding: 14px 15px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             flex: 1;
-            font-size: 14px;
+            font-size: 13px;
             transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
         .btn-download:hover {
-            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         .btn-back {
-            background: #64748b;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
             color: white;
             text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 6px;
+            padding: 14px 15px;
+            border-radius: 12px;
             text-align: center;
             flex: 1;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             transition: 0.2s;
         }
 
         .btn-back:hover {
-            background: #475569;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .form-panel h3 {
-            margin-top: 30px;
-            margin-bottom: 15px;
-            color: #1e293b;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: white;
             font-size: 16px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 5px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 12px;
         }
     </style>
 </head>

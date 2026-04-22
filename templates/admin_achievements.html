@@ -1,87 +1,86 @@
-{% extends "layout.html" %}
+{% extends "admin_layout.html" %}
 {% set active_page = 'achievements' %}
 
-{% block title %}Achievements Management | College Manager{% endblock %}
+{% block title %}Milestone Feed | Admin Panel{% endblock %}
 
 {% block content %}
-<div class="page-header animate-fade">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+<div class="achievements-section animate-up">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px;">
         <div>
-            <h1>Achievement Wall</h1>
-            <p>Showcase and celebrate student milestones across the campus.</p>
+            <h1 style="font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px;">Milestone Feed</h1>
+            <p style="color: var(--text-muted); font-size: 16px;">Celebrate student successes and milestones across the platform.</p>
         </div>
-        <a href="/add_achievement" class="btn btn-primary">
-            <i class="fas fa-plus"></i>
-            <span>Share Achievement</span>
+        <a href="/add_achievement" class="btn" style="width: auto; padding: 14px 28px; font-weight: 800;">
+            <i class="fas fa-plus"></i> Share New Milestone
         </a>
     </div>
-</div>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for category, message in messages %}
-<div class="alert {{ category }}"
-    style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 16px; border-radius: var(--radius-md); margin-bottom: 24px;">
-    {{ message }}</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-<div class="stats-grid animate-fade">
-    {% for a in achievements %}
-    <div class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-        <div style="position: relative; height: 220px; overflow: hidden; background: #000;">
-            <img src="{{ url_for('static', filename='uploads/' + a.photo) }}"
-                style="width: 100%; height: 100%; object-fit: contain;">
-            <div style="position: absolute; top: 12px; right: 12px;">
-                <span class="status status-approved"
-                    style="background: var(--bg-glass); backdrop-filter: blur(8px); box-shadow: var(--shadow-sm); font-size: 10px;">{{
-                    a.category }}</span>
-            </div>
-        </div>
-
-        <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <p
-                    style="font-size: 15px; line-height: 1.6; color: var(--text-main); margin-bottom: 20px; font-weight: 500;">
-                    {{ a.description }}</p>
-
-                <div style="display: flex; gap: 24px; margin-bottom: 24px;">
-                    <div
-                        style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted);">
-                        <i class="fas fa-heart" style="color: var(--danger);"></i>
-                        <span style="font-weight: 700; color: var(--text-main);">{{ a.likes }}</span>
-                    </div>
-                    <div
-                        style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted);">
-                        <i class="fas fa-eye" style="color: var(--info);"></i>
-                        <span style="font-weight: 700; color: var(--text-main);">{{ a.views }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div style="border-top: 1px solid var(--border-light); padding-top: 20px;">
-                <p
-                    style="font-size: 10px; color: var(--text-light); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em;">
-                    Recent Viewers</p>
-                <div
-                    style="font-size: 12px; color: var(--text-muted); background: var(--bg-main); padding: 12px; border-radius: 10px; max-height: 80px; overflow-y: auto; line-height: 1.5;">
-                    {{ a.viewer_names or 'No student views recorded yet.' }}
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
-                    <span style="font-size: 11px; color: var(--text-light);">{{ a.created_at[:10] }}</span>
-                    <i class="fas fa-ellipsis-h" style="color: var(--text-light); cursor: pointer;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 80px;">
-        <i class="fas fa-award" style="font-size: 56px; color: var(--border); margin-bottom: 20px; display: block;"></i>
-        <h3 style="color: var(--text-muted); font-size: 20px;">The wall is empty</h3>
-        <p style="color: var(--text-light); font-size: 15px; max-width: 400px; margin: 8px auto;">Start sharing success
-            stories to motivate the student community.</p>
-    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}" style="margin-bottom: 32px;">{{ message }}</div>
     {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="milestones-feed">
+        {% for a in achievements %}
+        <div class="glass-panel" style="overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; height: 100%;">
+            <div class="milestone-media" style="position: relative; height: 260px; background: rgba(0,0,0,0.4); border-bottom: 1px solid var(--border-color);">
+                <img src="{{ url_for('static', filename='uploads/' + a.photo) }}" alt="Milestone Image" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="position: absolute; top: 16px; left: 16px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); color: white; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; border: 1px solid rgba(255,255,255,0.1);">
+                    {{ a.created_at[:10] }}
+                </div>
+            </div>
+            
+            <div class="milestone-content" style="padding: 28px; flex: 1; display: flex; flex-direction: column; gap: 24px;">
+                <p style="font-size: 16px; line-height: 1.7; color: white; font-weight: 500; margin: 0;">{{ a.description }}</p>
+                
+                <div class="milestone-stats" style="display: flex; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <i class="fas fa-heart"></i>
+                        <span>{{ a.likes }} Likes</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <i class="fas fa-eye"></i>
+                        <span>{{ a.views }} Views</span>
+                    </div>
+                </div>
+
+                <div class="viewer-section" style="margin-top: auto; background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 20px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px;">
+                        <i class="fas fa-users" style="color: var(--primary-color);"></i>
+                        <span>Recent Viewers</span>
+                    </div>
+                    <div class="viewer-list" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; max-height: 80px; overflow-y: auto; scrollbar-width: thin;">
+                        {{ a.viewer_names or 'No student views recorded yet.' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 120px 24px; background: rgba(255,255,255,0.02); border-radius: 32px; border: 2px dashed var(--border-color); grid-column: 1 / -1;">
+            <i class="fas fa-trophy" style="font-size: 64px; color: var(--text-muted); margin-bottom: 32px; display: block; opacity: 0.2;"></i>
+            <h3 style="color: white; font-size: 22px; font-weight: 800; margin-bottom: 8px;">The wall is empty</h3>
+            <p style="color: var(--text-muted); font-size: 16px; max-width: 440px; margin: 0 auto;">Start sharing success stories to motivate the student community and celebrate their journey.</p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
+<style>
+    .milestones-feed {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 32px;
+    }
+    .glass-panel:hover {
+        transform: translateY(-8px);
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(255,255,255,0.15);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .viewer-list::-webkit-scrollbar { width: 4px; }
+    .viewer-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+</style>
 {% endblock %}

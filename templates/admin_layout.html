@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CareerConnect Admin{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-shield-halved"></i>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="nav-links">
+                <a href="/admin_dashboard" class="nav-item {% if active_page == 'analytics' %}active{% endif %}"><i class="fas fa-chart-pie"></i> Analytics</a>
+                <a href="/admin_students" class="nav-item {% if active_page == 'students' %}active{% endif %}"><i class="fas fa-user-graduate"></i> Students</a>
+                <a href="/admin_companies" class="nav-item {% if active_page == 'companies' %}active{% endif %}"><i class="fas fa-building"></i> Companies</a>
+                <a href="/admin_achievements" class="nav-item {% if active_page == 'achievements' %}active{% endif %}"><i class="fas fa-trophy"></i> Milestone Feed</a>
+                <a href="/admin_job_activity" class="nav-item {% if active_page == 'activity' %}active{% endif %}"><i class="fas fa-clipboard-list"></i> Activity & Remarks</a>
+                <a href="/admin_messages" class="nav-item {% if active_page == 'messages' %}active{% endif %}" style="display: flex; justify-content: space-between;">
+                    <div><i class="fas fa-inbox"></i> Student Inbox</div>
+                    {% if admin_unread and admin_unread > 0 %}
+                    <span style="background: var(--danger-color); color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 800;">{{ admin_unread }}</span>
+                    {% endif %}
+                </a>
+            </nav>
+            <div style="margin-top: auto;">
+                <a href="/logout" class="nav-item" style="color: var(--danger-color);">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search system...">
+                    </div>
+                </div>
+                <div class="user-nav-info">
+                    <div style="text-align: right; margin-right: 16px;">
+                        <div style="font-size: 13px; font-weight: 700; color: white;">System Administrator</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Root Access</div>
+                    </div>
+                    <div style="width: 40px; height: 40px; background: var(--accent-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+            </header>
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-toggle');
+            if (window.innerWidth <= 992) {
+                if (sidebar && !sidebar.contains(e.target) && !toggle.contains(e.target) && sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

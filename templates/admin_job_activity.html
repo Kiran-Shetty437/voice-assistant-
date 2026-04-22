@@ -1,0 +1,243 @@
+{% extends 'admin_layout.html' %}
+{% set active_page = 'activity' %}
+
+{% block head %}
+    <style>
+        .filter-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            background: var(--glass-bg);
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            align-items: center;
+        }
+
+        .filter-select {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            outline: none;
+            flex: 1;
+        }
+
+        .table-premium {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        .table-premium th {
+            text-align: left;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-premium tr td {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px 20px;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            vertical-align: top;
+        }
+
+        .table-premium tr td:first-child {
+            border-left: 1px solid var(--glass-border);
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .table-premium tr td:last-child {
+            border-right: 1px solid var(--glass-border);
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-opened { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-applied { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .badge-issue { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+        
+        .remark-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #cbd5e1;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .admin-reply-box {
+            margin-top: 8px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+            <div style="font-size: 20px; font-weight: 700; margin-bottom: 24px;"><i class="fas fa-clipboard-list" style="color: var(--primary-color); margin-right: 12px;"></i> Student Job Activity & Remarks</div>
+            <!-- Filters -->
+            <div class="filter-bar">
+                <div style="font-size: 14px; font-weight: 600; color: var(--text-muted);"><i class="fas fa-filter"></i> Filter By:</div>
+                <select id="filterCompany" class="filter-select" onchange="filterTable()">
+                    <option value="">All Companies</option>
+                    {% for company in companies %}
+                        <option value="{{ company }}">{{ company }}</option>
+                    {% endfor %}
+                </select>
+                <select id="filterCourse" class="filter-select" onchange="filterTable()">
+                    <option value="">All Courses</option>
+                    {% for course in courses %}
+                        <option value="{{ course }}">{{ course }}</option>
+                    {% endfor %}
+                </select>
+                <select id="filterStatus" class="filter-select" onchange="filterTable()">
+                    <option value="">All Statuses</option>
+                    <option value="Opened">Opened</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Issue">Issue</option>
+                </select>
+            </div>
+
+            <div class="chart-container" style="background: var(--glass-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--glass-border);">
+                <table class="table-premium" id="activityTable">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Company</th>
+                            <th>Status & Remarks</th>
+                            <th>Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in remarks %}
+                        <tr data-company="{{ r.company_name }}" data-course="{{ r.course }}" data-status="{{ r.status }}">
+                            <td>
+                                <div style="font-weight: 600;">{{ r.student_name }}</div>
+                            </td>
+                            <td>{{ r.course }}</td>
+                            <td><strong style="color: #cbd5e1;">{{ r.company_name }}</strong></td>
+                            <td style="max-width: 300px;">
+                                {% if r.status == 'Opened' %}
+                                    <span class="badge-status badge-opened"><i class="fas fa-external-link-alt"></i> Opened Link</span>
+                                {% elif r.status == 'Applied' %}
+                                    <span class="badge-status badge-applied"><i class="fas fa-check-circle"></i> Applied</span>
+                                {% elif r.status == 'Issue' %}
+                                    <span class="badge-status badge-issue"><i class="fas fa-exclamation-triangle"></i> Issue Reported</span>
+                                {% endif %}
+                                
+                                {% if r.message %}
+                                    <div class="remark-card">
+                                        "{{ r.message }}"
+                                    </div>
+                                {% endif %}
+
+                                {% if r.admin_reply %}
+                                    <div class="admin-reply-box">
+                                        <div style="font-size: 11px; color: #10b981; font-weight: 700; margin-bottom: 4px;"><i class="fas fa-reply"></i> Admin Reply:</div>
+                                        {{ r.admin_reply }}
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td style="color: var(--text-muted); font-size: 12px;">{{ r.time }}</td>
+                            <td>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    {% if not r.is_resolved and (r.status == 'Issue' or r.message) %}
+                                        <form action="/resolve_remark/{{ r.id }}" method="POST" style="margin: 0;">
+                                            <button type="submit" class="btn" style="padding: 6px 12px; font-size: 11px; background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; width: 100%;">Mark Resolved</button>
+                                        </form>
+                                        <button onclick="openReplyModal({{ r.id }}, '{{ r.student_name|escape }}')" class="btn" style="padding: 6px 12px; font-size: 11px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); width: 100%;">Reply</button>
+                                    {% elif r.is_resolved %}
+                                        <span style="color: var(--success-color); font-size: 12px; font-weight: 600;"><i class="fas fa-check-double"></i> Resolved</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">No activity records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Reply Modal -->
+    <div id="replyModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;">
+        <div class="modal-content" style="background: #1e1e2d; border-radius: 16px; width: 90%; max-width: 500px; padding: 24px; border: 1px solid var(--glass-border); position: relative;">
+            <button onclick="closeReplyModal()" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer;"><i class="fas fa-times"></i></button>
+            <h2 style="margin-top: 0; font-size: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px;">Reply to <span id="replyStudentName" style="color: var(--primary-color);"></span></h2>
+            
+            <form id="replyForm" method="POST">
+                <div style="margin-bottom: 24px;">
+                    <textarea name="admin_reply" rows="4" placeholder="Type your reply here..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: white; padding: 12px; font-family: inherit; resize: none; outline: none;" required></textarea>
+                </div>
+                <div style="text-align: right;">
+                    <button type="button" onclick="closeReplyModal()" class="btn" style="background: transparent; border: 1px solid var(--glass-border); margin-right: 12px;">Cancel</button>
+                    <button type="submit" class="btn">Send Reply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function filterTable() {
+            const company = document.getElementById('filterCompany').value.toLowerCase();
+            const course = document.getElementById('filterCourse').value.toLowerCase();
+            const status = document.getElementById('filterStatus').value.toLowerCase();
+
+            const rows = document.querySelectorAll('#activityTable tbody tr');
+            rows.forEach(row => {
+                if(row.children.length === 1) return; // Skip "No activity" row
+
+                const rCompany = row.getAttribute('data-company').toLowerCase();
+                const rCourse = row.getAttribute('data-course').toLowerCase();
+                const rStatus = row.getAttribute('data-status').toLowerCase();
+
+                const matchComp = !company || rCompany === company;
+                const matchCourse = !course || rCourse === course;
+                const matchStatus = !status || rStatus === status;
+
+                if(matchComp && matchCourse && matchStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function openReplyModal(id, studentName) {
+            document.getElementById('replyStudentName').innerText = studentName;
+            document.getElementById('replyForm').action = '/reply_remark/' + id;
+            document.getElementById('replyModal').style.display = 'flex';
+        }
+
+        function closeReplyModal() {
+            document.getElementById('replyModal').style.display = 'none';
+        }
+    </script>
+{% endblock %}

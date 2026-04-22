@@ -1,209 +1,153 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'student_layout.html' %}
+{% set active_page = 'achievements' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Achievements</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% block head %}
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        body {
-            background-color: #f3f4f6;
-            color: #1e293b;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .header h2 {
-            color: #0f172a;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #64748b;
-            font-size: 15px;
-        }
-
-        .achievements-list {
-            display: flex;
-            flex-direction: column;
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 24px;
         }
 
         .achievement-item {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .achievement-photo-container {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .achievement-photo {
             width: 100%;
-            border-radius: 12px;
+            height: 100%;
             object-fit: contain;
-            max-height: 400px;
-            background: #f8fafc;
         }
 
-        .achievement-details {
-            margin-top: 16px;
-            padding: 0 8px;
+        .achievement-content {
+            padding: 24px;
         }
 
         .achievement-desc {
-            font-size: 16px;
-            color: #334155;
-            line-height: 1.5;
-            margin-bottom: 16px;
-            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .achievement-actions {
+        .achievement-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #f1f5f9;
             padding-top: 16px;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 16px;
+            border-top: 1px solid var(--glass-border);
         }
 
         .btn-action {
-            background: none;
-            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 15px;
-            font-weight: 500;
-            transition: color 0.2s;
-            color: #64748b;
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 8px;
         }
 
         .btn-action:hover {
-            background: #f8fafc;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
 
         .btn-like.liked {
             color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
         }
 
-        .btn-like.liked i {
-            font-weight: 900;
-        }
-
-        .btn-save {
+        .btn-download {
             color: #3b82f6;
-        }
-
-        .views-count {
-            font-size: 14px;
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #64748b;
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
             text-decoration: none;
-            margin-bottom: 24px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .back-btn:hover {
-            color: #0f172a;
         }
     </style>
-</head>
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <div class="container">
-        <a href="/student_profile" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Profile</a>
+            <div style="margin-bottom: 40px;">
+                <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-radius: 100px; font-size: 12px; font-weight: 700; margin-bottom: 20px;">
+                    <i class="fas fa-certificate"></i> MILESTONES
+                </div>
+                <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 12px;">Recent Achievements</h1>
+                <p style="color: var(--text-muted); max-width: 600px;">Explore the latest milestones and success stories from our placement cell. Available for a limited time.</p>
+            </div>
 
-        <div class="header">
-            <h2><i class="fas fa-trophy" style="color: #f59e0b; margin-right: 8px;"></i> Recent Achievements</h2>
-            <p>Check out the latest milestone photos from the admin, available for 3 days.</p>
-        </div>
-
-        <div class="achievements-list">
-            {% for a in achievements %}
-            <div class="achievement-item" data-id="{{ a.id }}">
-                <img src="{{ url_for('static', filename='uploads/' + a.photo) }}" alt="Achievement"
-                    class="achievement-photo">
-                <div class="achievement-details">
-                    <p class="achievement-desc">{{ a.description }}</p>
-
-                    <div class="achievement-actions">
-                        <div class="action-btns">
-                            <button class="btn-action btn-like {% if a.liked_by_me %}liked{% endif %}"
-                                onclick="actionAchievement({{ a.id }}, 'like')" id="like-btn-{{ a.id }}">
-                                <i class="{% if a.liked_by_me %}fas{% else %}far{% endif %} fa-heart"></i>
-                                <span id="likes-{{ a.id }}">{{ a.likes }}</span> Like
-                            </button>
-                            <a href="{{ url_for('static', filename='uploads/' + a.photo) }}"
-                                download="Achievement_{{ a.created_at[:10] }}.jpg" class="btn-action btn-save">
-                                <i class="fas fa-download"></i> Save
-                            </a>
-                        </div>
-                        <div class="views-count">
-                            <i class="fas fa-eye"></i> <span id="views-{{ a.id }}">{{ a.views }}</span> Views
+            <div class="achievement-grid">
+                {% for a in achievements %}
+                <div class="achievement-item" data-id="{{ a.id }}">
+                    <div class="achievement-photo-container">
+                        <img src="{{ url_for('static', filename='uploads/' + a.photo) }}" alt="Achievement" class="achievement-photo">
+                    </div>
+                    <div class="achievement-content">
+                        <p class="achievement-desc">{{ a.description }}</p>
+                        <div class="achievement-footer">
+                            <div style="display: flex; gap: 12px;">
+                                <button class="btn-action btn-like {% if a.liked_by_me %}liked{% endif %}"
+                                    onclick="actionAchievement({{ a.id }}, 'like')" id="like-btn-{{ a.id }}">
+                                    <i class="{% if a.liked_by_me %}fas{% else %}far{% endif %} fa-heart"></i>
+                                    <span id="likes-{{ a.id }}">{{ a.likes }}</span>
+                                </button>
+                                <a href="{{ url_for('static', filename='uploads/' + a.photo) }}"
+                                    download="Achievement_{{ a.created_at[:10] }}.jpg" class="btn-action btn-download">
+                                    <i class="fas fa-download"></i> Save
+                                </a>
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 12px;">
+                                <i class="fas fa-eye"></i> <span id="views-{{ a.id }}">{{ a.views }}</span> Views
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% else %}
+                <div class="section-card" style="grid-column: 1 / -1; text-align: center; padding: 80px;">
+                    <i class="fas fa-image" style="font-size: 48px; color: var(--border-light); margin-bottom: 24px;"></i>
+                    <p style="color: var(--text-muted);">No achievements shared recently. Check back later!</p>
+                </div>
+                {% endfor %}
             </div>
-            {% else %}
-            <div
-                style="text-align: center; color: #64748b; background: white; padding: 48px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                <i class="fas fa-image" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                <p>No achievements available right now.</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
     <script>
-        // Track views when achievements become visible in viewport
+        // Track views
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.dataset.id;
                     actionAchievement(id, 'view');
-                    observer.unobserve(entry.target); // Only count view once per page load
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 }); // 50% of the item must be visible
+        }, { threshold: 0.5 });
 
         document.querySelectorAll('.achievement-item').forEach(item => {
             observer.observe(item);
@@ -228,6 +172,10 @@
                                 btn.classList.add('liked');
                                 icon.classList.remove('far');
                                 icon.classList.add('fas');
+                            } else {
+                                btn.classList.remove('liked');
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
                             }
                         } else if (actionType === 'view') {
                             document.getElementById(`views-${id}`).innerText = data.count;
@@ -236,6 +184,4 @@
                 });
         }
     </script>
-</body>
-
-</html>
+{% endblock %}

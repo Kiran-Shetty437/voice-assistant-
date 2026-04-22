@@ -1,0 +1,632 @@
+[
+  {
+    "name": "Rahul Sharma",
+    "roll": "BBA25001",
+    "course": "IBBA",
+    "phone": "9876500001",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Ananya Shetty",
+    "roll": "BBA25002",
+    "course": "IBBA",
+    "phone": "9876500002",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Kiran Patel",
+    "roll": "BBA25003",
+    "course": "IBBA",
+    "phone": "9876500003",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Sneha Reddy",
+    "roll": "BBA25004",
+    "course": "IBBA",
+    "phone": "9876500004",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Arjun Nair",
+    "roll": "BBA25005",
+    "course": "IBBA",
+    "phone": "9876500005",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Meera Iyer",
+    "roll": "BBA25006",
+    "course": "IBBA",
+    "phone": "9876500006",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Rohit Verma",
+    "roll": "BBA25007",
+    "course": "IBBA",
+    "phone": "9876500007",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Pooja Das",
+    "roll": "BBA25008",
+    "course": "IBBA",
+    "phone": "9876500008",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Aman Gupta",
+    "roll": "BBA25009",
+    "course": "IBBA",
+    "phone": "9876500009",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Neha Jain",
+    "roll": "BBA25010",
+    "course": "IBBA",
+    "phone": "9876500010",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Vikram Singh",
+    "roll": "BBA24001",
+    "course": "IIBBA",
+    "phone": "9876500011",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Kavya Rao",
+    "roll": "BBA24002",
+    "course": "IIBBA",
+    "phone": "9876500012",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Sandeep Kumar",
+    "roll": "BBA24003",
+    "course": "IIBBA",
+    "phone": "9876500013",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Divya Kulkarni",
+    "roll": "BBA24004",
+    "course": "IIBBA",
+    "phone": "9876500014",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Nikhil Joshi",
+    "roll": "BBA24005",
+    "course": "IIBBA",
+    "phone": "9876500015",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Aishwarya Pai",
+    "roll": "BBA24006",
+    "course": "IIBBA",
+    "phone": "9876500016",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Harsha Gowda",
+    "roll": "BBA24007",
+    "course": "IIBBA",
+    "phone": "9876500017",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Ritu Agarwal",
+    "roll": "BBA24008",
+    "course": "IIBBA",
+    "phone": "9876500018",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Manoj Bhat",
+    "roll": "BBA24009",
+    "course": "IIBBA",
+    "phone": "9876500019",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Priya Menon",
+    "roll": "BBA24010",
+    "course": "IIBBA",
+    "phone": "9876500020",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Deepak Shetty",
+    "roll": "BBA23001",
+    "course": "IIIBBA",
+    "phone": "9876500021",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Shreya Nair",
+    "roll": "BBA23002",
+    "course": "IIIBBA",
+    "phone": "9876500022",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Varun Reddy",
+    "roll": "BBA23003",
+    "course": "IIIBBA",
+    "phone": "9876500023",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Pallavi Joshi",
+    "roll": "BBA23004",
+    "course": "IIIBBA",
+    "phone": "9876500024",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Akash Patel",
+    "roll": "BBA23005",
+    "course": "IIIBBA",
+    "phone": "9876500025",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Snehal Kulkarni",
+    "roll": "BBA23006",
+    "course": "IIIBBA",
+    "phone": "9876500026",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Ramesh Nayak",
+    "roll": "BBA23007",
+    "course": "IIIBBA",
+    "phone": "9876500027",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Keerthi Rao",
+    "roll": "BBA23008",
+    "course": "IIIBBA",
+    "phone": "9876500028",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Ganesh Hegde",
+    "roll": "BBA23009",
+    "course": "IIIBBA",
+    "phone": "9876500029",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Lavanya Iyer",
+    "roll": "BBA23010",
+    "course": "IIIBBA",
+    "phone": "9876500030",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Rohit Shetty",
+    "roll": "BCA25001",
+    "course": "IBCA",
+    "phone": "9876500031",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Neha Reddy",
+    "roll": "BCA25002",
+    "course": "IBCA",
+    "phone": "9876500032",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Ajay Kumar",
+    "roll": "BCA25003",
+    "course": "IBCA",
+    "phone": "9876500033",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Divya Nair",
+    "roll": "BCA25004",
+    "course": "IBCA",
+    "phone": "9876500034",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Karthik Rao",
+    "roll": "BCA25005",
+    "course": "IBCA",
+    "phone": "9876500035",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Megha Shetty",
+    "roll": "BCA25006",
+    "course": "IBCA",
+    "phone": "9876500036",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Suresh Bhat",
+    "roll": "BCA25007",
+    "course": "IBCA",
+    "phone": "9876500037",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Anjali Verma",
+    "roll": "BCA25008",
+    "course": "IBCA",
+    "phone": "9876500038",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Naveen Pai",
+    "roll": "BCA25009",
+    "course": "IBCA",
+    "phone": "9876500039",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Pooja Hegde",
+    "roll": "BCA25010",
+    "course": "IBCA",
+    "phone": "9876500040",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Arun Gupta",
+    "roll": "BCA24001",
+    "course": "IIBCA",
+    "phone": "9876500041",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Kavita Singh",
+    "roll": "BCA24002",
+    "course": "IIBCA",
+    "phone": "9876500042",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Ravi Nair",
+    "roll": "BCA24003",
+    "course": "IIBCA",
+    "phone": "9876500043",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Deepa Rao",
+    "roll": "BCA24004",
+    "course": "IIBCA",
+    "phone": "9876500044",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Manish Patel",
+    "roll": "BCA24005",
+    "course": "IIBCA",
+    "phone": "9876500045",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Anita Joshi",
+    "roll": "BCA24006",
+    "course": "IIBCA",
+    "phone": "9876500046",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Sunil Kumar",
+    "roll": "BCA24007",
+    "course": "IIBCA",
+    "phone": "9876500047",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Rekha Menon",
+    "roll": "BCA24008",
+    "course": "IIBCA",
+    "phone": "9876500048",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Vivek Shetty",
+    "roll": "BCA24009",
+    "course": "IIBCA",
+    "phone": "9876500049",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Swathi Pai",
+    "roll": "BCA24010",
+    "course": "IIBCA",
+    "phone": "9876500050",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Kiran Nair",
+    "roll": "BCA23001",
+    "course": "IIIBCA",
+    "phone": "9876500051",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Sneha Bhat",
+    "roll": "BCA23002",
+    "course": "IIIBCA",
+    "phone": "9876500052",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Ajith Rao",
+    "roll": "BCA23003",
+    "course": "IIIBCA",
+    "phone": "9876500053",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Pallavi Singh",
+    "roll": "BCA23004",
+    "course": "IIIBCA",
+    "phone": "9876500054",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Nitin Verma",
+    "roll": "BCA23005",
+    "course": "IIIBCA",
+    "phone": "9876500055",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Deepika Shetty",
+    "roll": "BCA23006",
+    "course": "IIIBCA",
+    "phone": "9876500056",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Rakesh Kumar",
+    "roll": "BCA23007",
+    "course": "IIIBCA",
+    "phone": "9876500057",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Meena Iyer",
+    "roll": "BCA23008",
+    "course": "IIIBCA",
+    "phone": "9876500058",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Harish Gowda",
+    "roll": "BCA23009",
+    "course": "IIIBCA",
+    "phone": "9876500059",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Anu Sharma",
+    "roll": "BCA23010",
+    "course": "IIIBCA",
+    "phone": "9876500060",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Rohit Jain",
+    "roll": "BCOM25001",
+    "course": "IBCOM",
+    "phone": "9876500061",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Neha Agarwal",
+    "roll": "BCOM25002",
+    "course": "IBCOM",
+    "phone": "9876500062",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Amit Gupta",
+    "roll": "BCOM25003",
+    "course": "IBCOM",
+    "phone": "9876500063",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Pooja Shah",
+    "roll": "BCOM25004",
+    "course": "IBCOM",
+    "phone": "9876500064",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Vikas Mehta",
+    "roll": "BCOM25005",
+    "course": "IBCOM",
+    "phone": "9876500065",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Ritu Jain",
+    "roll": "BCOM25006",
+    "course": "IBCOM",
+    "phone": "9876500066",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Sanjay Patel",
+    "roll": "BCOM25007",
+    "course": "IBCOM",
+    "phone": "9876500067",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Kavya Shah",
+    "roll": "BCOM25008",
+    "course": "IBCOM",
+    "phone": "9876500068",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Manish Agarwal",
+    "roll": "BCOM25009",
+    "course": "IBCOM",
+    "phone": "9876500069",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Divya Mehta",
+    "roll": "BCOM25010",
+    "course": "IBCOM",
+    "phone": "9876500070",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Ramesh Shah",
+    "roll": "BCOM24001",
+    "course": "IIBCOM",
+    "phone": "9876500071",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Neeta Jain",
+    "roll": "BCOM24002",
+    "course": "IIBCOM",
+    "phone": "9876500072",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Akhil Gupta",
+    "roll": "BCOM24003",
+    "course": "IIBCOM",
+    "phone": "9876500073",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Priya Shah",
+    "roll": "BCOM24004",
+    "course": "IIBCOM",
+    "phone": "9876500074",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Vivek Mehta",
+    "roll": "BCOM24005",
+    "course": "IIBCOM",
+    "phone": "9876500075",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Ritu Shah",
+    "roll": "BCOM24006",
+    "course": "IIBCOM",
+    "phone": "9876500076",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Suresh Jain",
+    "roll": "BCOM24007",
+    "course": "IIBCOM",
+    "phone": "9876500077",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Kiran Mehta",
+    "roll": "BCOM24008",
+    "course": "IIBCOM",
+    "phone": "9876500078",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Nikhil Shah",
+    "roll": "BCOM24009",
+    "course": "IIBCOM",
+    "phone": "9876500079",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Anita Gupta",
+    "roll": "BCOM24010",
+    "course": "IIBCOM",
+    "phone": "9876500080",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Rohit Mehta",
+    "roll": "BCOM23001",
+    "course": "IIIBCOM",
+    "phone": "9876500081",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Neha Shah",
+    "roll": "BCOM23002",
+    "course": "IIIBCOM",
+    "phone": "9876500082",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Amit Jain",
+    "roll": "BCOM23003",
+    "course": "IIIBCOM",
+    "phone": "9876500083",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Pooja Mehta",
+    "roll": "BCOM23004",
+    "course": "IIIBCOM",
+    "phone": "9876500084",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Vikas Shah",
+    "roll": "BCOM23005",
+    "course": "IIIBCOM",
+    "phone": "9876500085",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Ritu Mehta",
+    "roll": "BCOM23006",
+    "course": "IIIBCOM",
+    "phone": "9876500086",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Sanjay Jain",
+    "roll": "BCOM23007",
+    "course": "IIIBCOM",
+    "phone": "9876500087",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Kavya Mehta",
+    "roll": "BCOM23008",
+    "course": "IIIBCOM",
+    "phone": "9876500088",
+    "email": "uniplace.portal@gmail.com"
+  },
+  {
+    "name": "Manish Shah",
+    "roll": "BCOM23009",
+    "course": "IIIBCOM",
+    "phone": "9876500089",
+    "email": "campus30@gmail.com"
+  },
+  {
+    "name": "Divya Jain",
+    "roll": "BCOM23010",
+    "course": "IIIBCOM",
+    "phone": "9876500090",
+    "email": "uniplace.portal@gmail.com"
+  }
+]

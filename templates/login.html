@@ -1,116 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Portal Login</title>
+    <meta charset="UTF-8">
+    <title>Enterprise Login | CareerConnect</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #020617;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Blobs */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
+            animation: blobFloat 20s infinite alternate;
+        }
+
+        .blob-1 { top: -100px; left: -100px; }
+        .blob-2 { bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes blobFloat {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 50px) scale(1.1); }
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .glass-container {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 36px;
+            padding: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-box {
+            background: var(--accent-gradient);
+            color: white;
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 28px;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            transform: rotate(-6deg);
+            transition: 0.3s;
+        }
+
+        .login-card:hover .logo-box {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .tab-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 14px;
+            display: flex;
+            margin-bottom: 32px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 14px 14px 48px;
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group input:focus + i {
+            color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .student-btn {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .admin-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .alert-box {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInDown 0.4s ease-out;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
 
-    <div class="container">
-        <div class="card glass" style="border-radius: 24px;">
-            <div style="text-align: center; margin-bottom: 32px;">
-                <div
-                    style="background: var(--accent-gradient); color: white; width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 28px; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4); transform: rotate(-5deg);">
+    <div class="login-card animate-up">
+        <div class="glass-container">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div class="logo-box">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <h1
-                    style="font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: -0.025em; margin-bottom: 8px;">
-                    Welcome Back</h1>
-                <p style="color: var(--text-muted); font-size: 15px;">Login to access your placement dashboard</p>
+                <h1 style="font-size: 32px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 8px;">CareerConnect</h1>
+                <p style="color: var(--text-muted); font-size: 15px;">Welcome back. Please sign in.</p>
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% for category, message in messages %}
-            <div class="alert {{ category }}">{{ message }}</div>
+            <div class="alert-box alert-{{ category }}">
+                <i class="fas {% if category == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+                {{ message }}
+            </div>
             {% endfor %}
             {% endwith %}
 
-            <div class="tabs" style="height: 48px; padding: 6px;">
-                <button id="btnAdmin" class="{% if user_type != 'student' %}active{% endif %}" onclick="showAdmin()"
-                    style="font-size: 14px; letter-spacing: 0.01em;">Administrator</button>
-                <button id="btnStudent" class="{% if user_type == 'student' %}active{% endif %}" onclick="showStudent()"
-                    style="font-size: 14px; letter-spacing: 0.01em;">Student</button>
+            <div class="tab-group">
+                <button id="btnStudent" class="tab-btn {% if user_type != 'admin' %}active{% endif %}" onclick="showStudent()">Student</button>
+                <button id="btnAdmin" class="tab-btn {% if user_type == 'admin' %}active{% endif %}" onclick="showAdmin()">Admin</button>
             </div>
 
-            <!-- Admin Form -->
-            <form id="adminForm" method="POST" class="{% if user_type == 'student' %}hidden{% endif %}">
-                <input type="hidden" name="user_type" value="admin">
-                <div style="position: relative; margin-bottom: 20px;">
-                    <i class="fas fa-user-shield"
-                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
-                    <input type="text" name="username" placeholder="Admin Username" required
-                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
-                </div>
-                <div style="position: relative; margin-bottom: 24px;">
-                    <i class="fas fa-key"
-                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
-                    <input type="password" name="password" placeholder="Password" required
-                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
-                </div>
-                <button type="submit"
-                    style="background: var(--accent-gradient); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);"><i
-                        class="fas fa-sign-in-alt" style="margin-right: 12px;"></i> Login as
-                    Admin</button>
-            </form>
-
             <!-- Student Form -->
-            <form id="studentForm" method="POST" class="{% if user_type != 'student' %}hidden{% endif %}">
+            <form id="studentForm" method="POST" class="{% if user_type == 'admin' %}hidden{% endif %}">
                 <input type="hidden" name="user_type" value="student">
-                <div style="position: relative; margin-bottom: 20px;">
-                    <i class="fas fa-id-card"
-                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
-                    <input type="text" name="reg_no" placeholder="Registration Number" required
-                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
+                <div class="form-group">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" name="reg_no" placeholder="Registration Number" required autocomplete="username">
                 </div>
-                <div style="position: relative; margin-bottom: 24px;">
-                    <i class="fas fa-lock"
-                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
-                    <input type="password" name="password" placeholder="Password" required
-                        style="padding-left: 48px; margin-bottom: 0; background: white; border: 1.5px solid var(--border-color);">
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
-                <button type="submit"
-                    style="background: var(--accent-gradient); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);"><i
-                        class="fas fa-sign-in-alt" style="margin-right: 12px;"></i> Login as Student</button>
+                <button type="submit" class="submit-btn student-btn">
+                    <span>Launch Student Dashboard</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
             </form>
 
+            <!-- Admin Form -->
+            <form id="adminForm" method="POST" class="{% if user_type != 'admin' %}hidden{% endif %}">
+                <input type="hidden" name="user_type" value="admin">
+                <div class="form-group">
+                    <i class="fas fa-user-shield"></i>
+                    <input type="text" name="username" placeholder="Admin Username" required autocomplete="admin-username">
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="submit-btn admin-btn">
+                    <span>Access Admin Panel</span>
+                    <i class="fas fa-shield-halved"></i>
+                </button>
+            </form>
         </div>
+        
+        <p style="text-align: center; margin-top: 32px; color: var(--text-muted); font-size: 13px;">
+            &copy; 2026 CareerConnect Ecosystem. All rights reserved.
+        </p>
     </div>
 
     <script>
         function showAdmin() {
-            const adminForm = document.getElementById("adminForm");
-            const studentForm = document.getElementById("studentForm");
-            const btnAdmin = document.getElementById("btnAdmin");
-            const btnStudent = document.getElementById("btnStudent");
-
-            adminForm.classList.remove("hidden");
-            studentForm.classList.add("hidden");
-            btnAdmin.classList.add("active");
-            btnStudent.classList.remove("active");
-
-            // Add a subtle fade-in animation
-            adminForm.style.animation = "fadeIn 0.3s ease-out";
+            document.getElementById("adminForm").classList.remove("hidden");
+            document.getElementById("studentForm").classList.add("hidden");
+            document.getElementById("btnAdmin").classList.add("active");
+            document.getElementById("btnStudent").classList.remove("active");
+            
+            // Re-trigger animation
+            const form = document.getElementById("adminForm");
+            form.style.animation = 'none';
+            form.offsetHeight;
+            form.style.animation = 'fadeInUp 0.4s ease-out forwards';
         }
+        
         function showStudent() {
-            const adminForm = document.getElementById("adminForm");
-            const studentForm = document.getElementById("studentForm");
-            const btnAdmin = document.getElementById("btnAdmin");
-            const btnStudent = document.getElementById("btnStudent");
-
-            adminForm.classList.add("hidden");
-            studentForm.classList.remove("hidden");
-            btnStudent.classList.add("active");
-            btnAdmin.classList.remove("active");
-
-            // Add a subtle fade-in animation
-            studentForm.style.animation = "fadeIn 0.3s ease-out";
+            document.getElementById("adminForm").classList.add("hidden");
+            document.getElementById("studentForm").classList.remove("hidden");
+            document.getElementById("btnStudent").classList.add("active");
+            document.getElementById("btnAdmin").classList.remove("active");
+            
+            const form = document.getElementById("studentForm");
+            form.style.animation = 'none';
+            form.offsetHeight;
+            form.style.animation = 'fadeInUp 0.4s ease-out forwards';
         }
     </script>
-
 </body>
-
 </html>

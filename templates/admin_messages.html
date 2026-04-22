@@ -1,0 +1,65 @@
+{% extends 'admin_layout.html' %}
+{% set active_page = 'messages' %}
+
+{% block title %}Messages Inbox | Admin Control{% endblock %}
+
+{% block content %}
+<div class="admin-messages-section animate-up">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
+        <div>
+            <h1 style="font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px;"><i class="fas fa-inbox" style="color: var(--primary-color);"></i> Student Inbox</h1>
+            <p style="color: var(--text-muted); font-size: 16px;">Manage communications and provide guidance to individual students.</p>
+        </div>
+    </div>
+
+    <div class="students-inbox-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px;">
+        {% for s in students %}
+        <a href="/admin_chat/{{ s.id }}" class="glass-panel" style="display: flex; align-items: center; gap: 20px; padding: 24px; text-decoration: none; transition: 0.3s; position: relative;">
+            {% if s.unread_count > 0 %}
+            <div style="position: absolute; top: -5px; right: -5px; background: var(--danger-color); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; box-shadow: 0 0 15px var(--danger-color);">
+                {{ s.unread_count }}
+            </div>
+            {% endif %}
+
+            <div class="avatar-box {% if s.unread_count > 0 %}unread-border{% endif %}" style="width: 60px; height: 60px; border-radius: 18px; overflow: hidden; flex-shrink: 0; border: 2px solid var(--border-color);">
+                {% if s.photo %}
+                <img src="{{ url_for('static', filename='uploads/' + s.photo) }}" alt="Student" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                <div class="avatar-placeholder" style="width: 100%; height: 100%; background: var(--surface-gradient); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">
+                    <i class="fas fa-user"></i>
+                </div>
+                {% endif %}
+            </div>
+
+            <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <h3 style="font-size: 17px; font-weight: 800; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">{{ s.name }}</h3>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">{{ s.roll_number }}</span>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                    {% if s.last_msg %}
+                    {{ s.last_msg }}
+                    {% else %}
+                    <span style="font-style: italic; opacity: 0.5;">No messages yet</span>
+                    {% endif %}
+                </p>
+            </div>
+            
+            <i class="fas fa-chevron-right" style="color: var(--border-color); font-size: 14px;"></i>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .glass-panel:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.04);
+        border-color: var(--primary-color);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    .unread-border {
+        border-color: var(--primary-color) !important;
+    }
+</style>
+{% endblock %}

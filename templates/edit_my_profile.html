@@ -1,67 +1,122 @@
-<!DOCTYPE html>
-<html>
+{% extends 'student_layout.html' %}
+{% set active_page = 'settings' %}
 
-<head>
-    <title>Edit Profile</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
+{% block head %}
+    <style>
+        .edit-form-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        input, select {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--glass-border) !important;
+            color: white !important;
+        }
+        label {
+            color: var(--text-muted) !important;
+            font-size: 13px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+    </style>
+{% endblock %}
 
-<body>
-    <div class="container" style="max-width: 600px;">
-        <div class="card">
-            <div style="text-align: center; margin-bottom: 24px;">
-                <div
-                    style="background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px; box-shadow: var(--shadow-md);">
-                    <i class="fas fa-user-edit"></i>
+{% block content %}
+
+            <div class="edit-form-card">
+                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 32px;">
+                    <div style="width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white;">
+                        <i class="fas fa-user-pen"></i>
+                    </div>
+                    <div>
+                        <h2 style="text-align: left; margin-bottom: 4px;">Update Profile</h2>
+                        <p style="color: var(--text-muted); font-size: 14px;">Ensure your latest details are available for recruiters</p>
+                    </div>
                 </div>
-                <h2 style="margin-bottom: 16px;">Edit Profile</h2>
-                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Update your contact details</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('edit_my_profile') }}">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <div style="margin-bottom: 24px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Phone Number</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-phone" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                                <input type="tel" name="phone" value="{{ student['phone'] or '' }}" placeholder="Enter 10 digits" pattern="\d{10}" maxlength="10" style="padding-left: 40px; margin-bottom: 0;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 24px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Email Address</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-envelope" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                                <input type="email" name="email" value="{{ student['email'] or '' }}" placeholder="Enter Email" style="padding-left: 40px; margin-bottom: 0;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <div style="margin-bottom: 24px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Current Semester</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-graduation-cap" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                                <select name="current_sem" style="padding-left: 40px; margin-bottom: 0; width: 100%;">
+                                    <option value="">Select Semester</option>
+                                    {% for i in range(1, 9) %}
+                                    <option value="{{ i }}" {% if student['current_sem']|string == i|string %}selected{% endif %}>Semester {{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 24px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Current CGPA</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-star" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                                <input type="number" step="0.01" name="cgpa" value="{{ student['cgpa'] or '' }}" placeholder="e.g. 9.5" style="padding-left: 40px; margin-bottom: 0;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Current Sem Percentage (%)</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-percent" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                            <input type="number" step="0.01" name="current_sem_percentage" value="{{ student['current_sem_percentage'] or '' }}" placeholder="Enter Percentage" style="padding-left: 40px; margin-bottom: 0;">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">SSLC Percentage (%)</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-school" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                                <input type="number" step="0.01" name="sslc_percentage" value="{{ student['sslc_percentage'] or '' }}" placeholder="SSLC %" style="padding-left: 40px; margin-bottom: 0;">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">PUC Percentage (%)</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-university" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+                                <input type="number" step="0.01" name="puc_percentage" value="{{ student['puc_percentage'] or '' }}" placeholder="PUC %" style="padding-left: 40px; margin-bottom: 0;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 16px;">
+                        <button type="submit" style="flex: 2; height: 50px; background: var(--accent-gradient);"><i class="fas fa-save" style="margin-right: 8px;"></i> Save Profile Details</button>
+                        <a href="/student_profile" class="btn" style="flex: 1; height: 50px; line-height: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);"><i class="fas fa-times" style="margin-right: 8px;"></i> Cancel</a>
+                    </div>
+                </form>
             </div>
-
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert {{ category }}">{{ message }}</div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-            <form method="POST" action="{{ url_for('edit_my_profile') }}">
-
-                <div style="margin-bottom: 16px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Phone
-                        Number</label>
-                    <div style="position: relative;">
-                        <i class="fas fa-phone"
-                            style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                        <input type="tel" name="phone" value="{{ student['phone'] or '' }}"
-                            placeholder="Enter 10 digits phone number" pattern="\d{10}" maxlength="10"
-                            title="Only 10 digits phone number" style="padding-left: 40px; margin-bottom: 0;">
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 24px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Email
-                        Address</label>
-                    <div style="position: relative;">
-                        <i class="fas fa-envelope"
-                            style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                        <input type="email" name="email" value="{{ student['email'] or '' }}"
-                            placeholder="Enter Email Address" style="padding-left: 40px; margin-bottom: 0;">
-                    </div>
-                </div>
-
-                <button type="submit"><i class="fas fa-save" style="margin-right: 8px;"></i> Save Changes</button>
-            </form>
-
-            <br>
-            <a href="/student_profile" class="logout-btn"
-                style="margin-top: 8px; background: var(--secondary-color); color: var(--text-main);"><i
-                    class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Profile</a>
-        </div>
-    </div>
-</body>
-
-</html>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'student_layout.html' %}
+{% set active_page = 'analyzer' %}
+
+{% block content %}
+        <div class="analyzer-section animate-up" style="width: 100%; display: flex; flex-direction: column; flex: 1;">
+            <div class="form-header" style="margin-bottom: 40px; width: 100%;">
+                <h1 style="font-size: 32px; font-weight: 800; color: white; margin-bottom: 12px; white-space: normal;">AI Resume Analyzer</h1>
+                <p style="color: var(--text-muted); font-size: 16px; white-space: normal;">Upload your document to begin the intelligence audit and identify skill gaps.</p>
+            </div>
+
+            <form action="{{ url_for('resume_analyzer') }}" method="POST" enctype="multipart/form-data" class="premium-form glass-panel" style="padding: 40px; border-radius: 28px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column;">
+                <div class="field-container" style="margin-bottom: 32px; width: 100%;">
+                    <label style="display: block; font-weight: 700; color: white; margin-bottom: 12px; font-size: 14px;">Target Job Role</label>
+                    <div class="input-wrapper" style="position: relative;">
+                        <i class="fas fa-briefcase" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                        <input type="text" id="job_name" name="job_name" placeholder="e.g. Senior Frontend Developer" value="{{ job_name or '' }}" 
+                               style="width: 100%; padding: 16px 16px 16px 54px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; color: white; font-size: 16px;">
+                    </div>
+                    <span style="font-size: 12px; color: var(--text-muted); margin-top: 8px; display: block;">Leave blank for general career advice</span>
+                </div>
+
+                <div class="field-container" style="margin-bottom: 32px; width: 100%;">
+                    <label style="display: block; font-weight: 700; color: white; margin-bottom: 12px; font-size: 14px;">Your Resume File</label>
+                    <div class="drop-zone" id="dropZone" style="width: 100%; height: 180px; border: 2px dashed var(--border-color); border-radius: 24px; position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); transition: 0.3s; cursor: pointer; box-sizing: border-box;">
+                        <input type="file" id="resume" name="resume" accept=".pdf,.docx" required style="position: absolute; width:100%; height:100%; opacity:0; cursor:pointer; left: 0; top: 0;">
+                        <div class="drop-zone-content" style="text-align: center;">
+                            <i class="fas fa-file-arrow-up" style="font-size: 40px; color: var(--primary-color); margin-bottom: 16px;"></i>
+                            <p id="fileNameDisplay" style="font-weight: 700; color: white; margin-bottom: 4px;">Drag and drop or click to upload</p>
+                            <span style="font-size: 12px; color: var(--text-muted);">Support PDF & DOCX formats</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; padding: 18px; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 12px;">
+                    <span class="text">Perform Intelligence Audit</span>
+                    <i class="fas fa-sparkles"></i>
+                </button>
+            </form>
+
+            {% if analysis %}
+            <div class="analysis-output animate-up" style="margin-top: 48px;">
+                <div class="glass-panel" style="padding: 48px; border-radius: 32px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 32px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px;">
+                        <i class="fas fa-robot" style="font-size: 24px; color: var(--primary-color);"></i>
+                        <h3 style="font-size: 22px; font-weight: 800; color: white;">Analysis Report</h3>
+                    </div>
+                    <div class="markdown-content" style="color: var(--text-muted); line-height: 1.8; font-size: 16px;">
+                        {{ analysis | safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    <style>
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 { color: white; margin-top: 32px; margin-bottom: 16px; }
+        .markdown-content ul { padding-left: 20px; margin-top: 16px; }
+        .markdown-content li { margin-bottom: 12px; }
+        .markdown-content strong { color: var(--primary-color); }
+        .drop-zone:hover { border-color: var(--primary-color); background: rgba(99, 102, 241, 0.05); }
+    </style>
+
+    <script>
+        const fileInput = document.getElementById('resume');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const dropZone = document.getElementById('dropZone');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = e.target.files[0].name;
+                fileNameDisplay.style.color = 'var(--success-color)';
+                dropZone.style.borderColor = 'var(--success-color)';
+                dropZone.style.background = 'rgba(16, 185, 129, 0.05)';
+            }
+        });
+
+        document.querySelector('.premium-form').addEventListener('submit', function() {
+            const btn = this.querySelector('.btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing Resume...';
+            btn.style.opacity = '0.7';
+            btn.style.pointerEvents = 'none';
+        });
+    </script>
+{% endblock %}
+

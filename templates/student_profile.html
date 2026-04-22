@@ -1,201 +1,231 @@
-<!DOCTYPE html>
-<html>
+{% extends 'student_layout.html' %}
+{% set active_page = 'dashboard' %}
 
-<head>
-    <title>Student Profile</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .companies-section {
-            margin-top: 32px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 24px;
-        }
-
-        .company-card {
-            background: var(--bg-body);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            text-align: left;
-            transition: all 0.2s ease;
-        }
-
-        .company-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-            border-color: var(--primary-color);
-        }
-
-        .company-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .company-about {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .apply-btn {
-            display: inline-block;
-            background: var(--success-color);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .apply-btn:hover {
-            background: #059669;
-            box-shadow: var(--shadow-sm);
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container" style="max-width: 600px;">
-        <div class="card">
-            <div style="text-align: center; margin-bottom: 32px;">
-                <div
-                    style="background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 32px; box-shadow: var(--shadow-md);">
-                    <i class="fas fa-user-graduate"></i>
+{% block content %}
+            <!-- Hero Section -->
+            <section class="welcome-hero animate-up">
+                <div class="career-badge">
+                    <i class="fas fa-plane-departure"></i> CAREER HUB
                 </div>
-                <h2 style="margin-bottom: 16px;">Student Profile</h2>
-                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Welcome back, {{ student['name']
-                    }}!</p>
-            </div>
+                <h1>Hello, {{ student['name'].split(' ')[0].capitalize() }}!</h1>
+                <p>Your professional journey continues here. Explore personalized opportunities and track your growth with our AI-powered tools.</p>
+            </section>
 
-            <div class="profile-details">
-                <div class="profile-item">
-                    <span class="profile-label">Name</span>
-                    <span class="profile-value">{{ student['name'] }}</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">Registration No</span>
-                    <span class="profile-value">{{ student['roll_number'] }}</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">Course</span>
-                    <span class="profile-value">{{ student['course'] }}</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">Section</span>
-                    <span class="profile-value">{{ student['section'] }} <span
-                            style="background:var(--secondary-color); color:var(--text-main); padding:2px 8px; border-radius:12px; font-size:12px; font-weight:700; margin-left:8px;">Sec</span></span>
-                </div>
-                {% if student['phone'] %}
-                <div class="profile-item">
-                    <span class="profile-label">Phone</span>
-                    <span class="profile-value">{{ student['phone'] }}</span>
-                </div>
-                {% endif %}
-                {% if student['email'] %}
-                <div class="profile-item">
-                    <span class="profile-label">Email</span>
-                    <span class="profile-value">{{ student['email'] }}</span>
-                </div>
-                {% endif %}
-            </div>
+            <!-- Tools Grid -->
+            <section class="tools-grid">
+                <a href="/resume_builder" class="tool-card">
+                    <div class="tool-icon" style="color: #6366f1;"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    <h3>Resume Builder</h3>
+                    <p>Craft an ATS-optimized professional resume in minutes with our smart templates.</p>
+                </a>
+                <a href="/mock_interview" class="tool-card">
+                    <div class="tool-icon" style="color: #10b981;"><i class="fas fa-comments"></i></div>
+                    <h3>Mock Interview</h3>
+                    <p>Practice your interview skills with our AI coach tailored to your resume.</p>
+                </a>
+                <a href="/resume_analyzer" class="tool-card">
+                    <div class="tool-icon" style="color: #a855f7;"><i class="fas fa-chart-line"></i></div>
+                    <h3>Resume Analysis</h3>
+                    <p>Compare your resume against any job role to find gaps and improve your score.</p>
+                </a>
+            </section>
 
-            <div class="companies-section">
-                <h3
-                    style="margin-bottom: 16px; font-size: 18px; color: var(--text-main); display: flex; align-items: center;">
-                    <i class="fas fa-briefcase" style="margin-right: 8px; color: var(--primary-color);"></i> Available
-                    Opportunities
-                </h3>
-
-                {% if companies|length > 0 %}
-                {% for company in companies %}
-                <div class="company-card">
-                    <div class="company-name">
-                        <i class="fas fa-building"
-                            style="color: var(--text-muted); margin-right: 8px; font-size: 14px;"></i>
-                        {{ company['name'] }}
-                    </div>
-                    <div class="company-about">
-                        {{ company['about'] }}
-                    </div>
-                    {% if company['show_timer'] %}
-                    <div class="countdown-timer" data-end="{{ company['end_timestamp'] }}"
-                        style="background-color: #fef3c7; color: #d97706; padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 12px; display: inline-block;">
-                        <i class="fas fa-clock" style="margin-right: 6px;"></i> <span class="time-text">Calculating time
-                            left...</span>
-                    </div>
-                    {% elif company['end_date'] %}
-                    <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">
-                        <i class="fas fa-calendar-alt" style="margin-right: 6px;"></i> Last Date: {{
-                        company['end_date'][:10] }}
-                    </div>
+            <div class="dashboard-grid">
+                <!-- Opportunities Section -->
+                <div class="section-card">
+                    <h2><i class="fas fa-briefcase" style="color: var(--primary-color); margin-right: 12px;"></i> Available Opportunities</h2>
+                    
+                    {% if companies|length > 0 %}
+                        {% for company in companies %}
+                        <div class="company-list-item">
+                            <div class="company-info-flex">
+                                <div class="company-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="company-text">
+                                    <div class="company-name-title">{{ company['name'] }}</div>
+                                    <div class="company-desc">{{ company['about'][:60] }}...</div>
+                                </div>
+                            </div>
+                            <div class="company-actions">
+                                {% if company['show_timer'] %}
+                                <div class="countdown-timer" data-end="{{ company['end_timestamp'] }}">
+                                    <i class="fas fa-clock"></i> <span class="time-text">--:--:--</span>
+                                </div>
+                                {% endif %}
+                                <div class="button-group">
+                                    <a href="/apply/{{ company['id'] }}" target="_blank" class="btn-link">Open</a>
+                                    <button onclick="openRemarkModal({{ company['id'] }}, '{{ company['name']|escape }}')" class="btn-apply">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No new opportunities at the moment. Check back soon!</p>
+                        </div>
                     {% endif %}
-                    <div style="clear: both;"></div>
-                    <a href="/apply/{{ company['id'] }}" target="_blank" class="apply-btn">
-                        <i class="fas fa-external-link-alt" style="margin-right: 6px;"></i> Apply Now
+                </div>
+
+                <!-- Profile Insights Section -->
+                <div class="section-card">
+                    <h2><i class="fas fa-id-card" style="color: var(--primary-color); margin-right: 12px;"></i> Profile Status</h2>
+                    <div class="profile-summary">
+                        <img src="{{ url_for('static', filename='uploads/' + student['photo']) if student['photo'] else 'https://ui-avatars.com/api/?name=' + student['name'] }}" class="profile-img-large">
+                        <div class="profile-name-large">{{ student['name'] }}</div>
+                        <div class="course-badge">{{ student['course'].upper() }}</div>
+                    </div>
+                    
+                    <div class="stats-list">
+                        <div class="mini-profile-item">
+                            <span>Registration</span>
+                            <strong>{{ student['roll_number'] }}</strong>
+                        </div>
+                        <div class="mini-profile-item">
+                            <span>CGPA</span>
+                            <strong style="color: #fbbf24;">{{ student['cgpa'] or 'N/A' }}</strong>
+                        </div>
+                        <div class="mini-profile-item">
+                            <span>Semester</span>
+                            <strong>{{ student['current_sem'] or 'N/A' }}</strong>
+                        </div>
+                    </div>
+                    
+                    <a href="/student_profile" class="btn-settings">
+                        <i class="fas fa-cog"></i> Edit Settings
                     </a>
                 </div>
-                {% endfor %}
-                {% else %}
-                <p
-                    style="color: var(--text-muted); font-size: 14px; text-align: center; padding: 16px; background: var(--secondary-color); border-radius: 8px;">
-                    No companies available at the moment.</p>
-                {% endif %}
             </div>
 
-            <div class="dashboard-actions"
-                style="margin-top: 24px; display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;">
-                <a href="/student_achievements" class="apply-btn"
-                    style="background: #f59e0b; flex: 1; min-width: 140px;"><i class="fas fa-trophy"
-                        style="margin-right: 8px;"></i> Achievements</a>
-                <a href="/resume_builder" class="apply-btn" style="background: #8b5cf6; flex: 1; min-width: 140px;"><i
-                        class="fas fa-file-alt" style="margin-right: 8px;"></i> Resume Builder</a>
-                <a href="/edit_my_profile" class="apply-btn"
-                    style="background: var(--primary-color); flex: 1; min-width: 140px;"><i class="fas fa-edit"
-                        style="margin-right: 8px;"></i> Edit Profile</a>
-                <a href="/logout" class="logout-btn" style="flex: 1; margin-top: 0; min-width: 140px;"><i
-                        class="fas fa-sign-out-alt" style="margin-right: 8px;"></i> Logout</a>
-            </div>
+    <!-- Remark Modal -->
+    <div id="remarkModal" class="modal-overlay">
+        <div class="modal-content">
+            <button onclick="closeRemarkModal()" class="close-modal"><i class="fas fa-times"></i></button>
+            <h3>Update Status <span id="modalCompanyName"></span></h3>
+            
+            <form id="remarkForm" action="/submit_job_remark" method="POST">
+                <input type="hidden" id="modalCompanyId" name="company_id">
+                
+                <div class="form-section">
+                    <label>Action / Status</label>
+                    <div class="status-options">
+                        <label class="status-radio">
+                            <input type="radio" name="status" value="Applied" checked>
+                            <div class="status-card applied">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Applied</span>
+                            </div>
+                        </label>
+                        <label class="status-radio">
+                            <input type="radio" name="status" value="Issue">
+                            <div class="status-card issue">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Issue</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label>Message (Optional)</label>
+                    <textarea name="message" rows="3" placeholder="e.g., Applied successfully or facing portal issues..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" onclick="closeRemarkModal()" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-submit">Submit Update</button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <style>
+        .company-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .company-list-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.04);
+            transform: scale(1.01);
+        }
+
+        .company-info-flex { display: flex; gap: 16px; align-items: center; }
+        .company-icon { width: 48px; height: 48px; background: rgba(99, 102, 241, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary-color); }
+        .company-name-title { font-weight: 700; color: white; font-size: 16px; margin-bottom: 2px; }
+        .company-desc { font-size: 13px; color: var(--text-muted); }
+
+        .company-actions { display: flex; align-items: center; gap: 20px; }
+        .countdown-timer { font-size: 12px; font-weight: 700; color: #fbbf24; background: rgba(251, 191, 36, 0.1); padding: 4px 12px; border-radius: 100px; border: 1px solid rgba(251, 191, 36, 0.2); }
+        .button-group { display: flex; gap: 10px; }
+        .btn-link { padding: 8px 16px; font-size: 13px; font-weight: 700; color: #60a5fa; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 10px; text-decoration: none; transition: 0.2s; }
+        .btn-apply { padding: 8px 16px; font-size: 13px; font-weight: 700; color: white; background: var(--primary-color); border: none; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+
+        .profile-summary { text-align: center; margin-bottom: 32px; }
+        .profile-img-large { width: 100px; height: 100px; border-radius: 28px; margin-bottom: 16px; border: 3px solid var(--primary-color); padding: 3px; background: var(--bg-card); }
+        .profile-name-large { font-size: 20px; font-weight: 800; color: white; margin-bottom: 8px; }
+        .course-badge { display: inline-block; font-size: 11px; font-weight: 800; color: var(--primary-color); background: rgba(99, 102, 241, 0.1); padding: 4px 12px; border-radius: 100px; border: 1px solid rgba(99, 102, 241, 0.2); }
+
+        .stats-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 32px; }
+        .mini-profile-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(255,255,255,0.02); border-radius: 12px; font-size: 14px; }
+        .mini-profile-item span { color: var(--text-muted); }
+        
+        .btn-settings { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border-color); border-radius: 14px; text-decoration: none; font-weight: 700; transition: 0.3s; }
+        .btn-settings:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.9); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .modal-content { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 28px; width: 95%; max-width: 500px; padding: 40px; position: relative; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; }
+        .status-options { display: flex; gap: 16px; margin-top: 12px; }
+        .status-radio { flex: 1; cursor: pointer; }
+        .status-radio input { display: none; }
+        .status-card { padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; display: flex; flex-direction: column; gap: 8px; transition: 0.3s; }
+        .status-card i { font-size: 24px; }
+        .status-card span { font-size: 14px; font-weight: 700; }
+        .status-radio input:checked + .status-card.applied { background: rgba(16, 185, 129, 0.1); border-color: var(--success-color); color: #10b981; }
+        .status-radio input:checked + .status-card.issue { background: rgba(239, 68, 68, 0.1); border-color: var(--danger-color); color: #ef4444; }
+        
+        .modal-footer { display: flex; gap: 16px; margin-top: 32px; }
+        .btn-cancel { flex: 1; padding: 14px; background: transparent; border: 1px solid var(--border-color); color: white; border-radius: 12px; cursor: pointer; font-weight: 700; }
+        .btn-submit { flex: 2; padding: 14px; background: var(--accent-gradient); border: none; color: white; border-radius: 12px; cursor: pointer; font-weight: 700; }
+        
+        .empty-state { text-align: center; padding: 60px; color: var(--text-muted); }
+        .empty-state i { font-size: 40px; margin-bottom: 16px; opacity: 0.3; }
+    </style>
 
     <script>
         function updateTimers() {
             const timers = document.querySelectorAll('.countdown-timer');
             const now = new Date().getTime();
-
             timers.forEach(timer => {
                 const endTime = parseInt(timer.getAttribute('data-end'));
                 const distance = endTime - now;
-
-                if (distance < 0) {
-                    timer.style.display = 'none';
-                    return;
-                }
-
+                if (distance < 0) { timer.style.display = 'none'; return; }
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                timer.querySelector('.time-text').innerText =
-                    `Ends in ${hours}h ${minutes}m ${seconds}s`;
+                timer.querySelector('.time-text').innerText = `${hours}h ${minutes}m ${seconds}s`;
             });
         }
-
         setInterval(updateTimers, 1000);
         updateTimers();
-    </script>
-</body>
 
-</html>
+        function openRemarkModal(id, name) {
+            document.getElementById('modalCompanyId').value = id;
+            document.getElementById('modalCompanyName').innerText = `- ${name}`;
+            document.getElementById('remarkModal').style.display = 'flex';
+        }
+        function closeRemarkModal() {
+            document.getElementById('remarkModal').style.display = 'none';
+        }
+    </script>
+{% endblock %}

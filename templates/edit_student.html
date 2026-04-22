@@ -1,111 +1,167 @@
-<!DOCTYPE html>
-<html>
+{% extends "admin_layout.html" %}
+{% set active_page = 'students' %}
 
-<head>
-    <title>Edit Student</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
+{% block title %}Edit Student: {{ student.name }} | Admin Panel{% endblock %}
 
-<body>
-
-    <div class="container">
-        <div class="card">
-            <div style="text-align: center; margin-bottom: 24px;">
-                <div
-                    style="background: #10b981; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px; box-shadow: var(--shadow-md);">
-                    <i class="fas fa-user-edit"></i>
-                </div>
-                <h2 style="margin-bottom: 16px;">Edit Student</h2>
-                <p style="color: var(--text-muted); font-size: 14px; margin-top: -8px;">Update student details</p>
-            </div>
-
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert {{ category }}">{{ message }}</div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-            <form method="POST" action="{{ url_for('edit_student', id=student['id']) }}" enctype="multipart/form-data">
-
-                <div style="position: relative;">
-                    <i class="fas fa-user"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="text" name="name" value="{{ student['name'] }}" placeholder="Student Name" required
-                        style="padding-left: 40px;">
-                </div>
-
-                <div style="position: relative;">
-                    <i class="fas fa-id-badge"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="text" name="roll_number" value="{{ student['roll_number'] }}" placeholder="Roll Number"
-                        required style="padding-left: 40px; margin-bottom: 16px;">
-                </div>
-
-                <div style="position: relative;">
-                    <i class="fas fa-book"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <select name="course" required style="padding-left: 40px;">
-                        <option value="">Select Course</option>
-                        <option value="BCA" {% if student['course']=='BCA' %}selected{% endif %}>BCA</option>
-                        <option value="BBA" {% if student['course']=='BBA' %}selected{% endif %}>bba</option>
-                        <option value="BA" {% if student['course']=='BA' %}selected{% endif %}>BA</option>
-                        <option value="Bsc" {% if student['course']=='Bsc' %}selected{% endif %}>Bsc</option>
-                        <option value="Bcom" {% if student['course']=='Bcom' %}selected{% endif %}>Bcom</option>
-                    </select>
-                </div>
-
-                <div style="position: relative;">
-                    <i class="fas fa-layer-group"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <select name="section" required style="padding-left: 40px;">
-                        <option value="">Select Section</option>
-                        <option value="A" {% if student['section']=='A' %}selected{% endif %}>A</option>
-                        <option value="B" {% if student['section']=='B' %}selected{% endif %}>B</option>
-                        <option value="C" {% if student['section']=='C' %}selected{% endif %}>C</option>
-                        <option value="D" {% if student['section']=='D' %}selected{% endif %}>D</option>
-                        <option value="E" {% if student['section']=='E' %}selected{% endif %}>E</option>
-                        <option value="F" {% if student['section']=='F' %}selected{% endif %}>F</option>
-                    </select>
-                </div>
-
-                <div style="position: relative;">
-                    <i class="fas fa-phone"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="text" name="phone" value="{{ student['phone'] }}"
-                        placeholder="Phone Number (10 digits)" pattern="\d{10}" maxlength="10"
-                        title="Only 10 digits phone number" required style="padding-left: 40px;">
-                </div>
-
-                <div style="position: relative;">
-                    <i class="fas fa-envelope"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="email" name="email" value="{{ student['email'] }}" placeholder="Email Address" required
-                        style="padding-left: 40px;">
-                </div>
-
-                <div style="position: relative;">
-                    <i class="fas fa-camera"
-                        style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
-                    <input type="file" name="photo" accept="image/*"
-                        style="padding-left: 40px; background: white; padding-top: 10px;">
-                </div>
-                <small
-                    style="color:var(--text-muted); display:block; margin-top:-12px; margin-bottom:16px; font-size: 12px; margin-left: 4px;">Student
-                    Photo (Optional, leave blank to keep current)</small>
-
-                <button type="submit"><i class="fas fa-save" style="margin-right: 8px;"></i> Save</button>
-            </form>
-
-            <br>
-            <a href="/admin_students" class="logout-btn" style="margin-top: 8px;"><i class="fas fa-arrow-left"
-                    style="margin-right: 8px;"></i> Back</a>
+{% block content %}
+<div class="edit-student-section animate-up" style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 48px;">
+        <div class="logo-box" style="background: var(--accent-gradient); color: white; width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 28px; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);">
+            <i class="fas fa-user-edit"></i>
         </div>
+        <h1 style="font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px;">Edit Student Profile</h1>
+        <p style="color: var(--text-muted); font-size: 16px;">Update credentials and performance data for <strong>{{ student.name }}</strong></p>
     </div>
 
-</body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}" style="margin-bottom: 32px; border-radius: 16px;">
+        <i class="fas fa-info-circle"></i> {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
-</html>
+    <div class="glass-panel" style="padding: 40px; border-radius: 32px;">
+        <form method="POST" action="{{ url_for('edit_student', id=student['id']) }}" enctype="multipart/form-data" class="premium-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <!-- Basic Info -->
+                <div class="form-group" style="grid-column: 1 / -1; margin-bottom: 8px;">
+                    <label style="display: block; font-size: 13px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; margin-left: 4px;">Full Legal Name</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-user" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="text" name="name" value="{{ student['name'] }}" placeholder="e.g. Deepak Shetty" required 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none; font-size: 15px; transition: 0.3s;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Roll Number / ID</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-id-badge" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="text" name="roll_number" value="{{ student['roll_number'] }}" placeholder="BBA23001" required 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Academic Course</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-graduation-cap" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <select name="course" required style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none; appearance: none;">
+                            <option value="BCA" {% if student['course']=='BCA' %}selected{% endif %}>BCA (Computer App)</option>
+                            <option value="BBA" {% if student['course']=='BBA' %}selected{% endif %}>BBA (Business Admin)</option>
+                            <option value="BA" {% if student['course']=='BA' %}selected{% endif %}>BA (Arts)</option>
+                            <option value="BSc" {% if student['course']=='BSc' or student['course']=='Bsc' %}selected{% endif %}>BSc (Science)</option>
+                            <option value="BCom" {% if student['course']=='BCom' or student['course']=='Bcom' %}selected{% endif %}>BCom (Commerce)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Academic Specs -->
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Section/Batch</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-layer-group" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="text" name="section" value="{{ student['section'] }}" placeholder="e.g. A" required 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Current Semester</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-calendar-alt" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <select name="current_sem" style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none; appearance: none;">
+                            {% for i in range(1, 9) %}
+                            <option value="{{ i }}" {% if student['current_sem']|string == i|string %}selected{% endif %}>Semester {{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Primary Email</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-envelope" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="email" name="email" value="{{ student['email'] }}" placeholder="student@university.edu" required 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Phone Connection</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-phone" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="text" name="phone" value="{{ student['phone'] }}" placeholder="9876543210" pattern="\d{10}" maxlength="10" required 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none;">
+                    </div>
+                </div>
+
+                <!-- Performance -->
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Aggregate CGPA</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-star-half-alt" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="number" step="0.01" name="cgpa" value="{{ student['cgpa'] or '' }}" placeholder="0.00" 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-left: 4px;">Sem % (Latest)</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-percent" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                        <input type="number" step="0.01" name="current_sem_percentage" value="{{ student['current_sem_percentage'] or '' }}" placeholder="0.00" 
+                               style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 14px 14px 50px; color: white; outline: none;">
+                    </div>
+                </div>
+
+                <!-- Photo -->
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label style="display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; margin-left: 4px;">Update Profile Image</label>
+                    <div style="display: flex; gap: 24px; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 24px; padding: 24px;">
+                        <div style="width: 100px; height: 100px; border-radius: 20px; overflow: hidden; border: 2px solid var(--primary-color); flex-shrink: 0;">
+                            {% if student.photo %}
+                            <img src="{{ url_for('static', filename='uploads/' + student.photo) }}" alt="Current Photo" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            <div style="width: 100%; height: 100%; background: var(--surface-gradient); display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-user" style="font-size: 32px;"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="background: rgba(255,255,255,0.03); border: 2px dashed var(--border-color); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer;"
+                                 onclick="document.getElementById('photoInput').click()">
+                                <i class="fas fa-camera" style="color: var(--primary-color); margin-bottom: 8px;"></i>
+                                <p style="font-size: 13px; color: white; font-weight: 600; margin: 0;">Choose new photo</p>
+                                <input type="file" name="photo" id="photoInput" hidden accept="image/*">
+                            </div>
+                            <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">Leave blank to keep the current profile image.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px; display: flex; gap: 20px;">
+                <button type="submit" class="btn" style="flex: 1; height: 54px; font-size: 16px; font-weight: 800;">
+                    <i class="fas fa-save" style="margin-right: 12px;"></i> Save Changes
+                </button>
+                <a href="/admin_students" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; width: auto; padding: 0 32px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    Discard
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .premium-form input:focus, .premium-form select:focus {
+        background: rgba(255,255,255,0.06) !important;
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+</style>
+{% endblock %}

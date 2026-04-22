@@ -1,0 +1,107 @@
+{% extends 'admin_layout.html' %}
+{% set active_page = 'messages' %}
+
+{% block title %}Chat with {{ student.name }} | Admin Panel{% endblock %}
+
+{% block content %}
+<div class="admin-chat-container animate-up">
+    <div style="margin-bottom: 32px; display: flex; align-items: center; gap: 16px;">
+        <a href="/admin_messages" class="btn" style="width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color);">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div>
+            <h1 style="font-size: 24px; font-weight: 800; color: white; margin: 0;">{{ student.name }}</h1>
+            <p style="color: var(--text-muted); font-size: 13px; margin: 0;">Session with {{ student.roll_number }}</p>
+        </div>
+    </div>
+
+    <div class="chat-wrapper glass-panel" style="display: flex; flex-direction: column; height: 600px; padding: 0; overflow: hidden; border-radius: 32px;">
+        <!-- Chat Header -->
+        <div class="chat-header" style="padding: 20px 32px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 16px;">
+            <div style="width: 40px; height: 40px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);">
+                {% if student.photo %}
+                <img src="{{ url_for('static', filename='uploads/' + student.photo) }}" alt="Student" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                <div style="width: 100%; height: 100%; background: var(--surface-gradient); display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fas fa-user" style="font-size: 14px;"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div>
+                <div style="font-weight: 800; color: white; font-size: 15px;">{{ student.name }}</div>
+                <div style="font-size: 11px; color: var(--text-muted);">{{ student.course }} | Section {{ student.section }}</div>
+            </div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div id="chatMessages" style="flex: 1; padding: 32px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth;">
+            {% for msg in chat_history %}
+            <div class="message-bubble {% if msg.sender == 'admin' %}sent{% else %}received{% endif %}" 
+                 style="max-width: 70%; padding: 16px 20px; border-radius: 20px; font-size: 15px; position: relative;">
+                {{ msg.content }}
+                <div style="font-size: 10px; margin-top: 8px; opacity: 0.6; text-align: right;">
+                    {{ msg.timestamp.split(' ')[1][:5] }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Chat Input Area -->
+        <form action="/admin_chat/{{ student.id }}" method="POST" style="padding: 24px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border-color); display: flex; gap: 16px;">
+            <input type="text" name="content" placeholder="Type your response to {{ student.name.split(' ')[0] }}..." required 
+                   style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 24px; color: white; outline: none; transition: 0.3s;"
+                   onfocus="this.parentElement.style.borderColor='var(--primary-color)'">
+            <button type="submit" class="btn" style="width: 54px; height: 54px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 16px; flex-shrink: 0;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Auto scroll to bottom
+    const chatBox = document.getElementById('chatMessages');
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Simple AJAX polling for real-time updates
+    setInterval(() => {
+        fetch(window.location.href)
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newMessages = doc.getElementById('chatMessages').innerHTML;
+                
+                // If content changed, update and scroll
+                if (chatBox.innerHTML !== newMessages) {
+                    chatBox.innerHTML = newMessages;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            });
+    }, 5000);
+</script>
+
+<style>
+    #chatMessages::-webkit-scrollbar { width: 6px; }
+    #chatMessages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 100px; }
+    
+    .message-bubble.sent {
+        align-self: flex-end;
+        background: var(--accent-gradient);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    .message-bubble.received {
+        align-self: flex-start;
+        background: rgba(255,255,255,0.05);
+        color: white;
+        border: 1px solid var(--border-color);
+        border-bottom-left-radius: 4px;
+    }
+    
+    @keyframes messageFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
